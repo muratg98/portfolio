@@ -25,7 +25,6 @@ const projects: Project[] = [
     techStack: [<FaReact size={20} />, <FaNodeJs size={20} />, <DiHtml5 size={20} />, <DiCss3 size={20} />],
     description: 'Used DeepGram API and trained GPT-4 to transcribe audio and develop a table summarizing symptoms, duration, and client health notes for GP consultations.',
     codeUrl: 'https://github.com/muratg98/audio-summary-deepgram',
-    liveUrl: 'https://gp-ai-audio-summariser.com',
   },
   {
     image: '/omdemnachallenge.png',
