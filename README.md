@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Portfolio
+Welcome to my portfolio! This is a showcase of my skills, projects, and experience as a self-taught software developer. I specialize in building modern, user-centric applications using technologies like JavaScript, TypeScript, Next.js, React, and Python.
 
-## Getting Started
+## About Me
+I am a self-taught software developer based in London, with a background in Psychology. My journey into tech was driven by my passion for solving real-world problems through technology. Combining my technical expertise with an understanding of human behavior, I strive to create intuitive, user-focused solutions that improve people's lives.
 
-First, run the development server:
+## Technologies & Tools
+In my projects, I work with a variety of modern technologies and tools:
 
-```bash
+- Frontend: React, Next.js, HTML, CSS, Tailwind CSS
+- Backend: Node.js, Python
+- Databases: MongoDB
+- Version Control: GitHub
+- Visual Studio Code, Docker, Postman, Figma
+
+Features
+- Responsive Design: Fully responsive, optimized for desktop, tablet, and mobile devices.
+- Interactive UI: Dynamic and engaging user interface with seamless interactions.
+- Clean Code: Well-organized and maintainable code with a focus on scalability.
+- Performance Optimization: Optimized for speed and efficiency.
+
+## Setup Instructions (Optional)
+If you would like to run this portfolio locally, follow the instructions below:
+
+### Prerequisites
+- Node.js installed on your machine
+- A modern browser for viewing the project
+
+### Installation
+Clone the repository:
+```
+bash
+Copy code
+git clone https://github.com/your-username/portfolio.git
+Navigate into the project directory:
+
+bash
+Copy code
+cd portfolio
+Install the dependencies:
+
+bash
+Copy code
+npm install
+
+Run the development server:
+
+bash
+Copy code
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open the project in your browser at http://localhost:3000.
