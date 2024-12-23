@@ -28,25 +28,24 @@ If you would like to run this portfolio locally, follow the instructions below:
 
 ### Installation
 Clone the repository:
+
 ```
-bash
-Copy code
 git clone https://github.com/your-username/portfolio.git
+```
+
 Navigate into the project directory:
 
-bash
-Copy code
+```
 cd portfolio
-Install the dependencies:
+```
 
-bash
-Copy code
+Install the dependencies:
+```
 npm install
+```
 
 Run the development server:
-
-bash
-Copy code
+```
 npm run dev
 ```
 
