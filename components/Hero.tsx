@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
         >
           <div className="rounded-full bg-[#181818] w-[150px] h-[150px] lg:w-[400px] lg:h-[400px] relative mx-auto overflow-hidden shadow-glow">
             <Image
-              src="/mehuh3.png"
+              src="/general/mehuh3.png"
               alt="hero image"
               className="object-cover scale-150 transform absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
               width={300}
