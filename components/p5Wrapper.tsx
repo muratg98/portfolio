@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useRef } from 'react';
 import p5 from 'p5';
 
@@ -28,10 +29,10 @@ const P5Wrapper: React.FC<P5WrapperProps> = ({ gameStarted, setGameStarted }) =>
         p.frameRate(60);
 
         for (let i = 1; i <= 6; i++) {
-          catImages.push(p.loadImage(`/catrun${i}.png`));
+          catImages.push(p.loadImage(`/gameImages/catrun${i}.png`));
         }
 
-        fireImage = p.loadImage('/fire-unscreen.gif');
+        fireImage = p.loadImage('/gameImages/fire-unscreen.gif');
       };
 
       p.draw = () => {

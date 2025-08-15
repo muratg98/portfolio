@@ -17,13 +17,10 @@ const Home: React.FC = () => {
       <Navbar />
       <ContactButton/>
       <Hero />
-      <AchievementsSection/>
       <Journey/>
       <Skills />
       <QuickGame/>
-      <Projects/>
-      {/* <Contact/> */}
-      
+      <Projects/>      
       <Footer/>
     </div>
   );

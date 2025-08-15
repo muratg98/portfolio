@@ -1,0 +1,39 @@
+[
+  {
+    "title": "MSc Health Psychology | Merit (2.1)",
+    "company_name": "University of Westminster",
+    "date": "Sept 2020 – Sept 2021",
+    "icon": "/journey/uow-icon.png",
+    "iconBg": "#FF6700",
+    "points": [
+      "Dissertation: 'Acceptability of Artificial Humans and Virtual Assistants in Healthcare'.",
+      "Explored the acceptance of AI-based healthcare assistants during COVID-19.",
+      "Conducted quantitative analysis using logistic regression, multiple regression, and cross-tabulation.",
+      "Identified users' awareness, perceived usefulness, and barriers as pivotal factors for acceptance."
+    ]
+  },
+  {
+    "title": "Hackathon Project: Onaegis",
+    "company_name": "Hackathon",
+    "date": "March 2023 – June 2023",
+    "icon": "/journey/devposticon.png",
+    "iconBg": "#ffd966",
+    "points": [
+      "Developed a SaaS website to detect bot-like behaviors in users' YouTube accounts.",
+      "Used APIs (YouTube and GPT), JavaScript for the website, and Python to train the AI Model.",
+      "Trained an AI model on over 1,000 labeled data points (bot vs. human comments)"
+    ]
+  },
+  {
+    "title": "Full-stack Developer (Freelance)",
+    "company_name": "Upwork - (view projects for examples)",
+    "date": "Nov 2023 - Current",
+    "icon": "/journey/uwicon.png",
+    "iconBg": "#8fce00",
+    "points": [
+      "Built end-to-end booking platforms, multi-tenant applications",
+      "Collaborated with clients to build Python scripts automating tasks and streamlining workflows.",
+      "Feedback: \"Excellent. I started with a small test project and Murat did great. The code is clean and works as designed and requested.\""
+    ]
+  }
+]

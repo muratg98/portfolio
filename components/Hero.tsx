@@ -6,13 +6,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Particle from '@/components/particles';
-import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa"; // Import the React Icons
+import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import general from "../data/general.json";
 
 const Hero: React.FC = () => {
   return (
-    <section className="lg:py-16 bg-gradient-to-r from-gray-900 via-gray-800 to-black h-[calc(100vh-250px)] pt-16 sm:pt-48 flex items-center justify-center relative">
+    <section className="lg:py-16 bg-gradient-to-r min-h-screen from-gray-900 via-gray-800 to-black h-[calc(100vh-250px)] flex items-center justify-center relative">
       <Particle />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-4 pt-32">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-4 z-10">
         {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -49,7 +50,7 @@ const Hero: React.FC = () => {
 
           <div className="flex items-center mt-6">
             <Link
-              href="/muratg-softwaredev-cv.pdf"
+              href="general/FullStack NextJS-React Dev CV.pdf"
               className="px-1 inline-block py-1 w-full sm:w-fit rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 hover:bg-slate-800 text-white mt-3"
             >
               <span className="block bg-[#121212] hover:bg-slate-800 rounded-full px-5 py-2">
@@ -61,7 +62,7 @@ const Hero: React.FC = () => {
             <div className="flex items-center space-x-4 ml-4 pt-3">
               {/* LinkedIn Icon */}
               <a
-                href="https://www.linkedin.com/in/murat-gungor-257937168/"
+                href={general.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-blue-500"
@@ -71,17 +72,17 @@ const Hero: React.FC = () => {
 
               {/* GitHub Icon */}
               <a
-                href="https://github.com/muratg98?tab=repositories"
+                href={general.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-gray-800"
+                className="text-white hover:text-gray-500"
               >
                 <FaGithub size={24} />
               </a>
 
               {/* Email Icon */}
               <a
-                href="mailto:muratgungor-98@hotmail.com"
+                href={`mailto:${general.email}`}
                 className="text-white hover:text-yellow-500"
               >
                 <FaEnvelope size={24} />

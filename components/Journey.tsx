@@ -5,82 +5,20 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { GiGiftOfKnowledge } from "react-icons/gi";
 
-const experiences = [
-    {
-      title: "MSc Health Psychology | Merit (2.1)",
-      company_name: "University of Westminster",
-      date: "Sept 2020 – Sept 2021",
-      icon: "/uow-icon.png",
-      iconBg: "#FF5733",
-      points: [
-        "Dissertation: 'Acceptability of Artificial Humans and Virtual Assistants in Healthcare'.",
-        "Explored the acceptance of AI-based healthcare assistants during COVID-19.",
-        "Conducted quantitative analysis using logistic regression, multiple regression, and cross-tabulation.",
-        "Identified users' awareness, perceived usefulness, and barriers as pivotal factors for acceptance.",
-      ],
-    },
-    {
-      title: "Python Programming",
-      company_name: "Online Courses and Mini Projects",
-      date: "Jan 2022 - March 2023",
-      icon: "/study-icon-19.png",
-      iconBg: "#33BFFF",
-      points: [
-        "Completed courses like 'Python For Everybody' by Dr. Chuck, '100 Days of Code' by Angela Yu, and 'Harvard CS50x'.",
-        "Projects included: WhatsApp AI Text Impersonator, Python GUI for AI Training, Google Maps Scraper, and Text Sentiment Analysis.",
-      ],
-    },
-    {
-      title: "Hackathon Project: Onaegis",
-      company_name: "Hackathon",
-      date: "March 2023 – June 2023",
-      icon: "/devposticon.png",
-      iconBg: "#FFD700",
-      points: [
-        "Developed a SaaS website to detect bot-like behaviors in users' YouTube accounts.",
-        "Used APIs (YouTube and GPT), JavaScript for the website, and Python to train the AI Model.",
-      ],
-    },
-    {
-      title: "Team Member",
-      company_name: "Honi Poke",
-      date: "August 2023 - Current",
-      icon: "/honipokeicon.png",
-      iconBg: "#FF4500",
-      points: [
-        "Completed daily KPIs and ensured customer inquiries were met.",
-        "Worked collaboratively to achieve team operational targets.",
-      ],
-    },
-    {
-      title: "MaxReach",
-      company_name: "Personal Project",
-      date: "Nov 2023 - Jan 2024",
-      icon: "/maxreachicon.png",
-      iconBg: "#1E90FF",
-      points: [
-        "Used APIs and scraping to develop a better understanding of LinkedIn profiles.",
-        "Created character profiles and personalized outreach using a trained GPT-3.5 Turbo AI Model.",
-      ],
-    },
-    {
-      title: "Freelancer",
-      company_name: "UpWork",
-      date: "Nov 2023 - Current",
-      icon: "/uwicon.png",
-      iconBg: "#32CD32",
-      points: [
-        "Promoted my services on UpWork, assisting clients with Python scripting tasks.",
-        "Projects included a script to read barcodes and QR codes from images and export data to Excel.",
-      ],
-    },
-  ];
-  
+// Import your static journey JSON
+import journeys from "../data/journey.json";
 
-// ExperienceCard Component
-const ExperienceCard: React.FC<{ experience: typeof experiences[0] }> = ({
+type JourneyType = {
+  title: string;
+  company_name: string;
+  date: string;
+  icon: string;
+  iconBg: string;
+  points: string[];
+};
+
+const ExperienceCard: React.FC<{ experience: JourneyType }> = ({
   experience,
 }) => {
   return (
@@ -96,35 +34,44 @@ const ExperienceCard: React.FC<{ experience: typeof experiences[0] }> = ({
       iconStyle={{ background: experience.iconBg }}
       icon={
         <div className="flex justify-center items-center w-full h-full">
-          <img
-            src={experience.icon}
-            alt={experience.company_name}
-            className="w-[60%] h-[60%] object-contain"
-          />
+          {experience.icon && (
+            <img
+              src={experience.icon}
+              alt={experience.company_name}
+              className="w-[60%] h-[60%] object-contain"
+            />
+          )}
         </div>
       }
     >
       <div>
         <h3 className="text-white text-[24px] font-bold">{experience.title}</h3>
-        <p className="text-secondary text-[16px] font-semibold" style={{ margin: 0 }}>
+        <p
+          className="text-secondary text-[16px] font-semibold"
+          style={{ margin: 0 }}
+        >
           {experience.company_name}
         </p>
       </div>
-      <ul className="mt-5 list-disc ml-5 space-y-2">
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}`}
-            className="text-black-100 text-[14px] pl-1 tracking-wider"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
+      {experience.points && (
+        <ul className="mt-5 list-disc ml-5 space-y-2">
+          {experience.points.map((point, index) => (
+            <li
+              key={`experience-point-${index}`}
+              className="text-black-100 text-[14px] pl-1 tracking-wider"
+            >
+              {point}
+            </li>
+          ))}
+        </ul>
+      )}
     </VerticalTimelineElement>
   );
 };
 
 const Journey: React.FC = () => {
+  if (!journeys || journeys.length === 0) return null;
+
   return (
     <section className="bg-gray-200" id="journey">
       <svg
@@ -153,6 +100,7 @@ const Journey: React.FC = () => {
           />
         </g>
       </svg>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -166,12 +114,11 @@ const Journey: React.FC = () => {
 
       <div className="mt-10 flex flex-col">
         <VerticalTimeline className="vertical-timeline-custom-line">
-          {experiences.map((experience, index) => (
-            <ExperienceCard key={`experience-${index}`} experience={experience} />
+          {journeys.map((experience, idx) => (
+            <ExperienceCard key={idx} experience={experience} />
           ))}
         </VerticalTimeline>
       </div>
-
     </section>
   );
 };

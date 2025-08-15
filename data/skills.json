@@ -1,0 +1,14 @@
+[
+  { "name": "Next.js", "proficiency": 7 },
+  { "name": "React", "proficiency": 7 },
+  { "name": "JavaScript", "proficiency": 7 },
+  { "name": "Python", "proficiency": 8 },
+  { "name": "MongoDB", "proficiency": 7 },
+  { "name": "Pandas", "proficiency": 5 },
+  { "name": "SPSS", "proficiency": 5 },
+  { "name": "Node JS", "proficiency": 7 },
+  { "name": "API Integration", "proficiency": 8 },
+  { "name": "Web Scraping", "proficiency": 6 },
+  { "name": "Machine Learning", "proficiency": 2 },
+  { "name": "Payload CMS", "proficiency": 8 }
+]

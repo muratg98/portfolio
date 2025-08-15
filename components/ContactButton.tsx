@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
 import { FaHandPeace } from "react-icons/fa";
+import general from "../data/general.json";
 
 const ContactButton: React.FC = () => {
   const handleClick = () => {
-    window.location.href = "mailto:muratgungor-98@hotmail.com"; 
+    window.location.href = `mailto:${general.email}`;
   };
 
   return (
@@ -19,7 +20,6 @@ const ContactButton: React.FC = () => {
       >
         <FaHandPeace size={70} className="text-white text-5xl" />
 
-        {/* Rotating Image Container */}
         <div
           className="absolute inset-0 flex items-center justify-center"
           style={{
@@ -36,7 +36,7 @@ const ContactButton: React.FC = () => {
           }}
         >
           <img
-            src="/contactme.png"
+            src="/general/contactme.png"
             alt="Contact"
             className="object-contain animate-spin-slow"
           />

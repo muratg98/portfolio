@@ -23,8 +23,7 @@ export default function Particle() {
           id="tsparticles"
           particlesLoaded={particlesLoaded}
           style={{
-            zIndex: -1,
-            
+            zIndex: -99,
           }}
           options={{
             style:{position:'absolute'},
@@ -32,7 +31,7 @@ export default function Particle() {
             interactivity: {
               events: {
                 onClick: {
-                  enable: true,
+                  enable: false,
                   mode: "push",
                 },
                 onHover: {

@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Zaman Bookings [MVP]",
+    "description": "Worked as part of a small team to build the MVP for beauty service businesses using Next.js, React, Node.js, MongoDB, and Better Auth for secure authentication.",
+    "skills": ["Next.js", "React", "JavaScript", "MongoDB", "Node JS"],
+    "image": "/projects/zamanbooking.png",
+    "links": {
+      "blog": "https://www.zamanbookings.com/"
+    }
+  },
+  {
+    "name": "GP AI Audio Summariser",
+    "description": "Used DeepGram API and trained GPT-4 to transcribe audio and develop a table summarizing symptoms, duration, and client health notes for GP consultations.",
+    "skills": ["Python", "Pandas", "API Integration"],
+    "image": "/projects/audiosumimage.png",
+    "links": {
+      "github": "https://github.com/muratg98/audio-summary-deepgram"
+    }
+  },
+  {
+    "name": "MaxReach",
+    "description": "Using API's and scraping to enrich LinkedIn profiles. Then using this data for creating character profiles and personalized outreach using a fine-tuned GPT 3.5 Turbo AI Model.",
+    "skills": ["Next.js", "React", "JavaScript", "MongoDB", "Node JS", "API Integration"],
+    "image": "/projects/maxreachimage.png",
+    "links": {}
+  },
+  {
+    "name": "Omdena Challenge: Alzheimer Detection",
+    "description": "Developed a machine learning model for early Alzheimer's detection using brain scan images. Overcame challenges like data leakage and medical imaging complexities.",
+    "skills": ["Python", "Pandas", "Machine Learning"],
+    "image": "/projects/omdemnachallenge.png",
+    "links": {}
+  },
+  {
+    "name": "Zaman Bookings",
+    "description": "Brought back to enhance performance, fix bugs, and integrate Payload CMS, adding multi-tenancy, role-based access, and premium features like dynamic client page generation. Improved UX in the staff dashboard, added email reminders, and expanded client customization options.",
+    "skills": ["Next.js", "React", "JavaScript", "MongoDB", "Node JS", "Payload CMS"],
+    "image": "/projects/zaman2home.jpg",
+    "links": {
+      "blog": ""
+    },
+    "pin": true
+  },
+  {
+    "name": "ShipShip",
+    "description": "An open source project to create dynamic boilerplates for faster development. This modern website template is built with Next.js and Payload CMS, featuring automatic plugin integrations and addons like authentication, S3 storage, and billing. It leverages the convenience of Payload CMS and the Next.js framework to create efficient websites quickly.",
+    "skills": ["Next.js", "React", "JavaScript", "Payload CMS", "S3 Storage", "Authentication"],
+    "image": "/projects/shipship.jpg",
+    "links": {
+      "github": "https://github.com/muratg98/shipship-site"
+    },
+    "pin": true
+  }
+]
