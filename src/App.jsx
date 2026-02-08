@@ -54,7 +54,7 @@ function App() {
         <div className="brain-canvas">
           <Suspense fallback={<LoadingScreen />}>
             <Canvas
-              camera={{ position: [0, 0, 20], fov: 50 }}
+              camera={{ position: [0, 25, 5], fov: 50 }}
               gl={{ antialias: true, alpha: true }}
               dpr={[1, 2]}
             >

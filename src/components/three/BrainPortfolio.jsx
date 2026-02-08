@@ -3,13 +3,18 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { Html, OrbitControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Camera zoom-in animation on page load
+// Camera animation on page load - starts from top, transitions to side view with zoom
 function CameraAnimation({ brainLoaded }) {
   const { camera } = useThree();
   const startTime = useRef(null);
-  const startZ = 20; // start zoomed out
-  const endZ = 10;   // end at 50% zoom (between start and min distance)
-  const duration = 3000; // 3 seconds
+  const controlsRef = useRef(null);
+  
+  // Start position: top-down view, zoomed out
+  const startPos = { x: 0, y: 25, z: 5 };
+  // End position: side view, slightly zoomed in
+  const endPos = { x: 0, y: 2, z: 12 };
+  
+  const duration = 5000; // 5 seconds for smooth cinematic transition
   
   useFrame((state) => {
     // Wait for brain to load before starting animation
@@ -17,6 +22,9 @@ function CameraAnimation({ brainLoaded }) {
     
     if (startTime.current === null) {
       startTime.current = state.clock.elapsedTime * 1000;
+      // Set initial camera position
+      camera.position.set(startPos.x, startPos.y, startPos.z);
+      camera.lookAt(0, 0, 0);
     }
     
     const elapsed = state.clock.elapsedTime * 1000 - startTime.current;
@@ -26,7 +34,13 @@ function CameraAnimation({ brainLoaded }) {
       const progress = elapsed / duration;
       const eased = 1 - Math.pow(1 - progress, 3);
       
-      camera.position.z = startZ + (endZ - startZ) * eased;
+      // Interpolate camera position
+      camera.position.x = startPos.x + (endPos.x - startPos.x) * eased;
+      camera.position.y = startPos.y + (endPos.y - startPos.y) * eased;
+      camera.position.z = startPos.z + (endPos.z - startPos.z) * eased;
+      
+      // Always look at the center of the brain
+      camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
     }
   });
@@ -701,20 +715,21 @@ function ParticleBrain({ onLoaded }) {
       normalizedVertices.push({ x, y, z, dist, index: i });
     }
     
-    // Calculate distance threshold for surface vertices (outer 40%)
-    const surfaceThreshold = maxDist * 0.6;
+    // Calculate distance threshold for surface vertices (outer 50%)
+    const surfaceThreshold = maxDist * 0.5;
     
     // Create line connections from mesh edges
     const linePositions = [];
     const lineColors = [];
     const connectedVertices = new Map();
+    const vertexConnectionCount = new Map(); // Track how many lines connect to each vertex
     
     const purple = new THREE.Color(COLORS.purple);
     const cyan = new THREE.Color(COLORS.cyan);
     const magenta = new THREE.Color(COLORS.magenta);
     
-    // Sample every Nth edge for performance (58k edges -> ~10k)
-    const edgeSampleRate = 6;
+    // Use every 2nd edge for a fuller look (58k edges -> ~29k surface-filtered -> display)
+    const edgeSampleRate = 2;
     
     for (let i = 0; i < edges.length; i += edgeSampleRate) {
       const [aIdx, bIdx] = edges[i];
@@ -724,15 +739,15 @@ function ParticleBrain({ onLoaded }) {
       const v2 = normalizedVertices[bIdx];
       
       // Only keep surface edges (both vertices on surface or top of brain)
-      const v1Surface = v1.dist >= surfaceThreshold || v1.y > 1.2;
-      const v2Surface = v2.dist >= surfaceThreshold || v2.y > 1.2;
+      const v1Surface = v1.dist >= surfaceThreshold || v1.y > 1.0;
+      const v2Surface = v2.dist >= surfaceThreshold || v2.y > 1.0;
       
-      // Check midpoint is also on surface
+      // Check midpoint is also on surface (relaxed threshold)
       const midX = (v1.x + v2.x) / 2;
       const midY = (v1.y + v2.y) / 2;
       const midZ = (v1.z + v2.z) / 2;
       const midDist = Math.sqrt(midX * midX + (midY * 0.7) ** 2 + midZ * midZ);
-      const midSurface = midDist >= surfaceThreshold * 0.95 || midY > 1.2;
+      const midSurface = midDist >= surfaceThreshold * 0.85 || midY > 1.0;
       
       if (v1Surface && v2Surface && midSurface) {
         linePositions.push(v1.x, v1.y, v1.z);
@@ -764,21 +779,26 @@ function ParticleBrain({ onLoaded }) {
         if (!connectedVertices.has(bIdx)) {
           connectedVertices.set(bIdx, { x: v2.x, y: v2.y, z: v2.z, color: color2 });
         }
+        
+        // Count connections per vertex
+        vertexConnectionCount.set(aIdx, (vertexConnectionCount.get(aIdx) || 0) + 1);
+        vertexConnectionCount.set(bIdx, (vertexConnectionCount.get(bIdx) || 0) + 1);
       }
     }
     
-    // Create node positions and colors arrays (excluding those near section squares)
+    // Create node positions - only show nodes that have visible connections
+    // Sample to reduce count but ensure good distribution
     const nodePositions = [];
     const nodeColors = [];
     const sectionPositions = SECTIONS.map(s => s.position);
     const minDistFromSquares = 0.5;
     
-    // Sample nodes for performance
-    const nodeArray = Array.from(connectedVertices.values());
-    const nodeSampleRate = 4;
-    
-    for (let i = 0; i < nodeArray.length; i += nodeSampleRate) {
-      const vertex = nodeArray[i];
+    // Show nodes at vertices with 2+ connections (junction points)
+    for (const [idx, vertex] of connectedVertices.entries()) {
+      const connectionCount = vertexConnectionCount.get(idx) || 0;
+      
+      // Only show nodes at junction points (2+ connections) for cleaner look
+      if (connectionCount < 2) continue;
       
       // Check if this node is too close to any section square
       let tooClose = false;
