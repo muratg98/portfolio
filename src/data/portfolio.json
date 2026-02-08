@@ -1,0 +1,144 @@
+{
+  "profile": {
+    "name": "Your Name",
+    "title": "Fullstack Developer",
+    "tagline": "Crafting digital experiences with code & creativity",
+    "bio": "Passionate fullstack developer with expertise in modern web technologies. I build performant, scalable applications that solve real-world problems.",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "email": "hello@yourdomain.com",
+    "location": "Your City, Country",
+    "availability": "Open to opportunities"
+  },
+  "skills": {
+    "frontend": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vue.js", "Three.js"],
+    "backend": ["Node.js", "Express", "Python", "PostgreSQL", "MongoDB", "GraphQL"],
+    "tools": ["Git", "Docker", "AWS", "Vercel", "Figma", "Linux"]
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-Commerce Platform",
+      "description": "A full-featured e-commerce solution with Next.js 14, server components, Stripe integration, and real-time inventory management.",
+      "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+      "tags": ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
+      "liveUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourusername/project1",
+      "featured": true,
+      "color": "#3b82f6"
+    },
+    {
+      "id": 2,
+      "title": "Real-time Collaboration",
+      "description": "Collaborative workspace with drag-and-drop, real-time cursors, and automated workflows for distributed teams.",
+      "image": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=600&fit=crop",
+      "tags": ["React", "Socket.io", "Node.js", "MongoDB"],
+      "liveUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourusername/project2",
+      "featured": true,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": 3,
+      "title": "AI Content Studio",
+      "description": "SaaS platform leveraging OpenAI to generate marketing copy, blog posts, and social media content at scale.",
+      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+      "tags": ["Next.js", "OpenAI", "Prisma", "Tailwind"],
+      "liveUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourusername/project3",
+      "featured": false,
+      "color": "#06b6d4"
+    },
+    {
+      "id": 4,
+      "title": "Analytics Dashboard",
+      "description": "Real-time analytics with interactive 3D charts, custom reports, and advanced data visualization.",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+      "tags": ["React", "Three.js", "D3.js", "Express"],
+      "liveUrl": "https://example.com",
+      "githubUrl": "https://github.com/yourusername/project4",
+      "featured": false,
+      "color": "#f59e0b"
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "role": "Senior Fullstack Developer",
+      "company": "Freelance",
+      "type": "freelance",
+      "period": "2022 - Present",
+      "description": "Delivering end-to-end web solutions for startups and established businesses worldwide.",
+      "highlights": [
+        "Completed 50+ successful projects across various industries",
+        "Maintained 100% client satisfaction with 5-star reviews",
+        "Reduced client development costs by 40% through efficient solutions"
+      ]
+    },
+    {
+      "id": 2,
+      "role": "Lead Frontend Developer",
+      "company": "Tech Startup Inc.",
+      "type": "fulltime",
+      "period": "2020 - 2022",
+      "description": "Led frontend development for a SaaS platform serving 50,000+ active users.",
+      "highlights": [
+        "Improved application performance by 60% through optimization",
+        "Built component library adopted by 5 development teams",
+        "Mentored 5 junior developers to senior positions"
+      ]
+    },
+    {
+      "id": 3,
+      "role": "Software Developer",
+      "company": "Digital Agency",
+      "type": "fulltime",
+      "period": "2018 - 2020",
+      "description": "Built responsive websites and web applications for Fortune 500 clients.",
+      "highlights": [
+        "Delivered 40+ client projects on time and budget",
+        "Pioneered React adoption within the organization",
+        "Developed internal tools that saved 20 hours/week"
+      ]
+    }
+  ],
+  "accomplishments": [
+    {
+      "id": 1,
+      "title": "50+ Projects",
+      "description": "Successfully delivered projects from MVPs to enterprise applications",
+      "icon": "rocket",
+      "value": "50+"
+    },
+    {
+      "id": 2,
+      "title": "5-Star Rating",
+      "description": "Consistently top-rated for quality and communication",
+      "icon": "star",
+      "value": "5.0"
+    },
+    {
+      "id": 3,
+      "title": "Open Source",
+      "description": "Active contributor with 1000+ GitHub stars",
+      "icon": "github",
+      "value": "1K+"
+    },
+    {
+      "id": 4,
+      "title": "Tech Articles",
+      "description": "Published articles with 100K+ total reads",
+      "icon": "pen",
+      "value": "100K+"
+    }
+  ],
+  "about": {
+    "story": "My journey into software development started when I built my first website at 16. What began as curiosity quickly evolved into a passion for creating digital experiences that make a difference. Over the years, I've evolved from crafting simple HTML pages to architecting complex fullstack applications that serve thousands of users.",
+    "approach": "I believe in writing clean, maintainable code that stands the test of time. Every project I take on receives my full dedication—I treat each one as if it were my own product. I stay current with the latest technologies while maintaining a pragmatic approach to problem-solving.",
+    "interests": ["Building side projects", "Open source contribution", "Learning emerging tech", "Mentoring developers"]
+  },
+  "social": {
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourusername",
+    "twitter": "https://twitter.com/yourusername"
+  }
+}
