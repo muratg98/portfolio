@@ -1,7 +1,38 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { Html, OrbitControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Camera zoom-in animation on page load
+function CameraAnimation({ brainLoaded }) {
+  const { camera } = useThree();
+  const startTime = useRef(null);
+  const startZ = 20; // start zoomed out
+  const endZ = 10;   // end at 50% zoom (between start and min distance)
+  const duration = 3000; // 3 seconds
+  
+  useFrame((state) => {
+    // Wait for brain to load before starting animation
+    if (!brainLoaded) return;
+    
+    if (startTime.current === null) {
+      startTime.current = state.clock.elapsedTime * 1000;
+    }
+    
+    const elapsed = state.clock.elapsedTime * 1000 - startTime.current;
+    
+    if (elapsed < duration) {
+      // Ease out cubic for smooth deceleration
+      const progress = elapsed / duration;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      
+      camera.position.z = startZ + (endZ - startZ) * eased;
+      camera.updateProjectionMatrix();
+    }
+  });
+  
+  return null;
+}
 
 // Custom hook to load and parse brain OBJ file (vertex-only)
 function useBrainVertices(url) {
@@ -409,10 +440,204 @@ function NeuralParticles({ count = 60 }) {
   );
 }
 
+// Neural lightning effect - traveling illumination along connected point chains
+function NeuralLightning({ nodePositions, linePositions }) {
+  const [lightnings, setLightnings] = useState([]);
+  const lastFlashTime = useRef(0);
+  const nextFlashDelay = useRef(2000 + Math.random() * 4000);
+  
+  // Build adjacency map from line segments for finding connected points
+  const adjacencyMap = useMemo(() => {
+    if (!linePositions || linePositions.length === 0) return new Map();
+    
+    const map = new Map();
+    const numSegments = linePositions.length / 6;
+    
+    // Helper to create position key
+    const posKey = (x, y, z) => `${x.toFixed(3)},${y.toFixed(3)},${z.toFixed(3)}`;
+    
+    for (let i = 0; i < numSegments; i++) {
+      const baseIdx = i * 6;
+      const p1 = { x: linePositions[baseIdx], y: linePositions[baseIdx + 1], z: linePositions[baseIdx + 2] };
+      const p2 = { x: linePositions[baseIdx + 3], y: linePositions[baseIdx + 4], z: linePositions[baseIdx + 5] };
+      
+      const key1 = posKey(p1.x, p1.y, p1.z);
+      const key2 = posKey(p2.x, p2.y, p2.z);
+      
+      if (!map.has(key1)) map.set(key1, { pos: p1, neighbors: [] });
+      if (!map.has(key2)) map.set(key2, { pos: p2, neighbors: [] });
+      
+      map.get(key1).neighbors.push(key2);
+      map.get(key2).neighbors.push(key1);
+    }
+    
+    return map;
+  }, [linePositions]);
+  
+  // Helper to create a single lightning chain
+  const createLightning = (time, keys) => {
+    const startKey = keys[Math.floor(Math.random() * keys.length)];
+    
+    // Walk through connected points to create chain (8-30 points)
+    const chainLength = 8 + Math.floor(Math.random() * 23);
+    const chain = [];
+    const visited = new Set();
+    let currentKey = startKey;
+    
+    for (let i = 0; i < chainLength && currentKey; i++) {
+      const node = adjacencyMap.get(currentKey);
+      if (!node) break;
+      
+      chain.push(node.pos);
+      visited.add(currentKey);
+      
+      // Pick random unvisited neighbor
+      const unvisitedNeighbors = node.neighbors.filter(n => !visited.has(n));
+      if (unvisitedNeighbors.length > 0) {
+        currentKey = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
+      } else {
+        break;
+      }
+    }
+    
+    if (chain.length >= 3) {
+      const colors = [COLORS.cyan, COLORS.magenta, COLORS.purple];
+      return {
+        id: Math.random(),
+        chain,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        startTime: time,
+        duration: 800 + Math.random() * 400,
+        activeIndex: 0
+      };
+    }
+    return null;
+  };
+  
+  useFrame((state) => {
+    const time = state.clock.elapsedTime * 1000;
+    
+    // Trigger new lightning batch every 2-6 seconds
+    if (time - lastFlashTime.current > nextFlashDelay.current && adjacencyMap.size > 0) {
+      lastFlashTime.current = time;
+      nextFlashDelay.current = 2000 + Math.random() * 4000;
+      
+      const keys = Array.from(adjacencyMap.keys());
+      
+      // Create 1-5 simultaneous lightnings
+      const numLightnings = 1 + Math.floor(Math.random() * 5);
+      const newLightnings = [];
+      
+      for (let i = 0; i < numLightnings; i++) {
+        const lightning = createLightning(time + i * 50, keys); // slight delay between each
+        if (lightning) newLightnings.push(lightning);
+      }
+      
+      if (newLightnings.length > 0) {
+        setLightnings(prev => [...prev.filter(l => {
+          const elapsed = time - l.startTime;
+          return elapsed < l.duration;
+        }), ...newLightnings]);
+      }
+    }
+    
+    // Update all lightning travel progress
+    setLightnings(prev => {
+      let updated = false;
+      const newLightnings = prev.map(lightning => {
+        const elapsed = time - lightning.startTime;
+        const progress = elapsed / lightning.duration;
+        
+        if (progress >= 1) {
+          updated = true;
+          return null;
+        }
+        
+        const activeIndex = Math.floor(progress * lightning.chain.length * 1.5);
+        if (activeIndex !== lightning.activeIndex) {
+          updated = true;
+          return { ...lightning, activeIndex };
+        }
+        return lightning;
+      }).filter(Boolean);
+      
+      return updated ? newLightnings : prev;
+    });
+  });
+  
+  if (lightnings.length === 0) return null;
+  
+  const trailLength = 6;
+  
+  return (
+    <group>
+      {lightnings.map(lightning => (
+        <group key={lightning.id}>
+          {lightning.chain.map((pos, idx) => {
+            const distFromHead = lightning.activeIndex - idx;
+            if (distFromHead < 0 || distFromHead > trailLength) return null;
+            
+            const intensity = 1 - (distFromHead / trailLength);
+            
+            return (
+              <mesh key={idx} position={[pos.x, pos.y, pos.z]}>
+                <sphereGeometry args={[0.018, 6, 6]} />
+                <meshBasicMaterial
+                  color={lightning.color}
+                  transparent
+                  opacity={intensity * 0.95}
+                  blending={THREE.AdditiveBlending}
+                />
+              </mesh>
+            );
+          })}
+          
+          {lightning.chain.map((pos, idx) => {
+            if (idx === 0) return null;
+            const prevPos = lightning.chain[idx - 1];
+            
+            const distFromHead = lightning.activeIndex - idx;
+            if (distFromHead < 0 || distFromHead > trailLength) return null;
+            
+            const intensity = 1 - (distFromHead / trailLength);
+            
+            return (
+              <line key={`line-${idx}`}>
+                <bufferGeometry>
+                  <bufferAttribute
+                    attach="attributes-position"
+                    count={2}
+                    array={new Float32Array([prevPos.x, prevPos.y, prevPos.z, pos.x, pos.y, pos.z])}
+                    itemSize={3}
+                  />
+                </bufferGeometry>
+                <lineBasicMaterial
+                  color={lightning.color}
+                  transparent
+                  opacity={intensity * 0.9}
+                  linewidth={2}
+                  blending={THREE.AdditiveBlending}
+                />
+              </line>
+            );
+          })}
+        </group>
+      ))}
+    </group>
+  );
+}
+
 // Line Brain - Uses real brain OBJ vertices with connected lines
-function ParticleBrain() {
+function ParticleBrain({ onLoaded }) {
   const linesRef = useRef();
   const { vertices, loading, error } = useBrainVertices('/models/brain_vertex_low.obj');
+  
+  // Notify parent when brain is loaded
+  useEffect(() => {
+    if (!loading && vertices && onLoaded) {
+      onLoaded();
+    }
+  }, [loading, vertices, onLoaded]);
   
   // Create line connections from brain vertices - SURFACE ONLY
   const lineData = useMemo(() => {
@@ -448,15 +673,20 @@ function ParticleBrain() {
       const x = (vertices[i * 3] - centerX) * scaleFactor;
       const y = (vertices[i * 3 + 1] - centerY) * scaleFactor;
       const z = (vertices[i * 3 + 2] - centerZ) * scaleFactor;
-      const dist = Math.sqrt(x * x + y * y + z * z);
+      
+      // Use ellipsoid-adjusted distance to account for brain shape
+      // Brain is flatter on top, so adjust Y component
+      const adjustedY = y * 0.7; // compress Y for distance calc
+      const dist = Math.sqrt(x * x + adjustedY * adjustedY + z * z);
       maxDist = Math.max(maxDist, dist);
       
       normalizedVertices.push({ x, y, z, dist, index: i });
     }
     
-    // Calculate distance threshold for surface vertices (outer 50% - reduced from 60%)
-    const surfaceThreshold = maxDist * 0.5;
-    const surfaceVertices = normalizedVertices.filter(v => v.dist >= surfaceThreshold);
+    // Calculate distance threshold for surface vertices (outer 40%)
+    const surfaceThreshold = maxDist * 0.6;
+    // Include vertices near the top regardless of distance (y > 0.8)
+    const surfaceVertices = normalizedVertices.filter(v => v.dist >= surfaceThreshold || v.y > 1.2);
     
     // Build spatial grid for efficient neighbor lookup
     const gridSize = 0.24;
@@ -473,7 +703,7 @@ function ParticleBrain() {
     const lineColors = [];
     const connections = new Set();
     const connectedVertices = new Map(); // vertex index -> {x, y, z, color}
-    const connectionDistance = 0.32; // increased slightly to maintain coverage
+    const connectionDistance = 0.38; // increased to maintain coverage on outer shell
     const maxConnectionsPerVertex = 3; // reduced from 4
     
     const purple = new THREE.Color(COLORS.purple);
@@ -517,8 +747,8 @@ function ParticleBrain() {
             midDist
           };
         })
-        // Only keep connections where midpoint is also on surface (not going through center)
-        .filter(d => d.dist < connectionDistance && d.midDist >= surfaceThreshold * 0.8)
+        // Only keep connections where midpoint is also on surface (strict - no internal lines)
+        .filter(d => d.dist < connectionDistance && d.midDist >= surfaceThreshold * 0.95)
         .sort((a, b) => a.dist - b.dist)
         .slice(0, maxConnectionsPerVertex);
       
@@ -560,12 +790,30 @@ function ParticleBrain() {
       }
     }
     
-    // Create node positions and colors arrays
+    // Create node positions and colors arrays (excluding those near section squares)
     const nodePositions = [];
     const nodeColors = [];
+    const sectionPositions = SECTIONS.map(s => s.position);
+    const minDistFromSquares = 0.5; // minimum distance from section squares
+    
     for (const vertex of connectedVertices.values()) {
-      nodePositions.push(vertex.x, vertex.y, vertex.z);
-      nodeColors.push(vertex.color.r, vertex.color.g, vertex.color.b);
+      // Check if this node is too close to any section square
+      let tooClose = false;
+      for (const sp of sectionPositions) {
+        const dx = vertex.x - sp[0];
+        const dy = vertex.y - sp[1];
+        const dz = vertex.z - sp[2];
+        const distToSquare = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (distToSquare < minDistFromSquares) {
+          tooClose = true;
+          break;
+        }
+      }
+      
+      if (!tooClose) {
+        nodePositions.push(vertex.x, vertex.y, vertex.z);
+        nodeColors.push(vertex.color.r, vertex.color.g, vertex.color.b);
+      }
     }
     
     return {
@@ -611,7 +859,7 @@ function ParticleBrain() {
         <lineBasicMaterial
           vertexColors
           transparent
-          opacity={0.4}
+          opacity={0.25}
         />
       </lineSegments>
       
@@ -635,10 +883,16 @@ function ParticleBrain() {
           vertexColors
           size={0.06}
           transparent
-          opacity={0.9}
+          opacity={0.6}
           sizeAttenuation
         />
       </points>
+      
+      {/* Neural lightning effect */}
+      <NeuralLightning 
+        nodePositions={lineData.nodePositions} 
+        linePositions={lineData.positions} 
+      />
     </group>
   );
 }
@@ -648,16 +902,24 @@ function ParticleBrain() {
 // Main exported component
 export default function BrainPortfolio({ onSectionClick }) {
   const groupRef = useRef();
+  const [brainLoaded, setBrainLoaded] = useState(false);
+  
+  const handleBrainLoaded = () => {
+    setBrainLoaded(true);
+  };
   
   return (
     <>
+      {/* Camera zoom-in animation */}
+      <CameraAnimation brainLoaded={brainLoaded} />
+      
       {/* Orbit Controls - enables zoom, rotate */}
       <OrbitControls
         enablePan={false}
         enableZoom={true}
         enableRotate={true}
         minDistance={3}
-        maxDistance={15}
+        maxDistance={25}
         minPolarAngle={Math.PI * 0.15}
         maxPolarAngle={Math.PI * 0.85}
         rotateSpeed={0.5}
@@ -684,7 +946,7 @@ export default function BrainPortfolio({ onSectionClick }) {
       {/* Brain group */}
       <group ref={groupRef} scale={4.0}>
         {/* Particle Brain - loads OBJ model, falls back to procedural */}
-        <ParticleBrain />
+        <ParticleBrain onLoaded={handleBrainLoaded} />
         
         {/* Neural particles inside */}
         <NeuralParticles count={80} />
