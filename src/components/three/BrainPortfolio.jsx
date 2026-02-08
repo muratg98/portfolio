@@ -454,8 +454,8 @@ function ParticleBrain() {
       normalizedVertices.push({ x, y, z, dist, index: i });
     }
     
-    // Calculate distance threshold for surface vertices (outer 60%)
-    const surfaceThreshold = maxDist * 0.4;
+    // Calculate distance threshold for surface vertices (outer 50% - reduced from 60%)
+    const surfaceThreshold = maxDist * 0.5;
     const surfaceVertices = normalizedVertices.filter(v => v.dist >= surfaceThreshold);
     
     // Build spatial grid for efficient neighbor lookup
@@ -473,8 +473,8 @@ function ParticleBrain() {
     const lineColors = [];
     const connections = new Set();
     const connectedVertices = new Map(); // vertex index -> {x, y, z, color}
-    const connectionDistance = 0.28;
-    const maxConnectionsPerVertex = 4;
+    const connectionDistance = 0.32; // increased slightly to maintain coverage
+    const maxConnectionsPerVertex = 3; // reduced from 4
     
     const purple = new THREE.Color(COLORS.purple);
     const cyan = new THREE.Color(COLORS.cyan);
