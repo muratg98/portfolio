@@ -1,144 +1,237 @@
 {
   "profile": {
-    "name": "Your Name",
-    "title": "Fullstack Developer",
-    "tagline": "Crafting digital experiences with code & creativity",
-    "bio": "Passionate fullstack developer with expertise in modern web technologies. I build performant, scalable applications that solve real-world problems.",
-    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-    "email": "hello@yourdomain.com",
-    "location": "Your City, Country",
-    "availability": "Open to opportunities"
+    "name": "Murat Gungor",
+    "title": "Full-Stack Developer",
+    "tagline": "Building fast, scalable, user-focused applications",
+    "bio": "Full-stack developer with over three years of experience and a background in Health Psychology, bringing analytical problem-solving skills to building fast, scalable, and user-focused applications.",
+    "image": "/images/profile.jpg",
+    "email": "muratgungor-98@hotmail.com",
+    "location": "London, England, UK",
+    "availability": "Open to opportunities",
+    "phone": "+447950271780",
+    "website": "www.muratg.dev"
   },
   "skills": {
-    "frontend": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vue.js", "Three.js"],
-    "backend": ["Node.js", "Express", "Python", "PostgreSQL", "MongoDB", "GraphQL"],
-    "tools": ["Git", "Docker", "AWS", "Vercel", "Figma", "Linux"]
+    "frontend": ["React", "Next.js", "TypeScript", "Qwik", "Tailwind CSS", "HTML/CSS"],
+    "backend": ["Node.js", "Express", "Django", "Flask", "Payload CMS", "Python"],
+    "tools": ["Git", "Docker", "AWS S3", "MongoDB", "PostgreSQL", "Playwright", "Pandas"]
   },
   "projects": [
     {
       "id": 1,
-      "title": "E-Commerce Platform",
-      "description": "A full-featured e-commerce solution with Next.js 14, server components, Stripe integration, and real-time inventory management.",
-      "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-      "tags": ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
-      "liveUrl": "https://example.com",
-      "githubUrl": "https://github.com/yourusername/project1",
+      "title": "ShipShip",
+      "description": "Open-source dynamic boilerplate using Next.js and Payload CMS to help developers launch projects faster with scalable architecture and built-in performance optimizations.",
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+      "tags": ["Next.js", "Payload CMS", "TypeScript", "S3"],
+      "liveUrl": "https://github.com/muratg98/shipship",
+      "githubUrl": "https://github.com/muratg98/shipship",
       "featured": true,
-      "color": "#3b82f6"
+      "color": "#3b82f6",
+      "period": "Nov 2024 - Ongoing",
+      "highlights": [
+        "Instantly integrate authentication, emailing, database configuration, S3 storage and blog section",
+        "Built modular, reusable components for rapid application development"
+      ]
     },
     {
       "id": 2,
-      "title": "Real-time Collaboration",
-      "description": "Collaborative workspace with drag-and-drop, real-time cursors, and automated workflows for distributed teams.",
-      "image": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=600&fit=crop",
-      "tags": ["React", "Socket.io", "Node.js", "MongoDB"],
-      "liveUrl": "https://example.com",
-      "githubUrl": "https://github.com/yourusername/project2",
+      "title": "MaxReach",
+      "description": "AI-powered LinkedIn outreach tool using APIs and web scraping to enrich profiles, then creating personalized outreach using a fine-tuned GPT 3.5 Turbo AI Model.",
+      "image": "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=800&h=600&fit=crop",
+      "tags": ["Python", "GPT-3.5", "Pandas", "Web Scraping"],
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/muratg98",
       "featured": true,
-      "color": "#8b5cf6"
+      "color": "#8b5cf6",
+      "period": "Nov 2023 - Jan 2024",
+      "highlights": [
+        "Web scraping and data enrichment at scale",
+        "Fine-tuning AI model with best performing outreach text",
+        "Data hierarchy to prioritize specific data in the AI model"
+      ]
     },
     {
       "id": 3,
-      "title": "AI Content Studio",
-      "description": "SaaS platform leveraging OpenAI to generate marketing copy, blog posts, and social media content at scale.",
-      "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-      "tags": ["Next.js", "OpenAI", "Prisma", "Tailwind"],
-      "liveUrl": "https://example.com",
-      "githubUrl": "https://github.com/yourusername/project3",
+      "title": "Alzheimer's Detection Model",
+      "description": "Machine learning model for detecting early signs of Alzheimer's using brain scan images from a Kaggle dataset, developed with Omdena.",
+      "image": "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=600&fit=crop",
+      "tags": ["Python", "Machine Learning", "Medical Imaging"],
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/muratg98",
       "featured": false,
-      "color": "#06b6d4"
+      "color": "#06b6d4",
+      "period": "Mar 2024",
+      "highlights": [
+        "Prevented data leakage by properly splitting data before preprocessing",
+        "Applied classification models to support early diagnosis in healthcare"
+      ]
     },
     {
       "id": 4,
-      "title": "Analytics Dashboard",
-      "description": "Real-time analytics with interactive 3D charts, custom reports, and advanced data visualization.",
-      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-      "tags": ["React", "Three.js", "D3.js", "Express"],
-      "liveUrl": "https://example.com",
-      "githubUrl": "https://github.com/yourusername/project4",
+      "title": "Onaegis",
+      "description": "SaaS website built during a Wix Velo hackathon that detects bot-like behaviours across YouTube accounts using AI classification.",
+      "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
+      "tags": ["Wix Velo", "AI/ML", "JavaScript"],
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/muratg98",
       "featured": false,
-      "color": "#f59e0b"
+      "color": "#f59e0b",
+      "period": "Mar 2023 - Jun 2023",
+      "highlights": [
+        "Built and deployed within hackathon timeframe",
+        "Trained AI model on 1,000+ labeled data points",
+        "Achieved over 90% accuracy in classification"
+      ]
     }
   ],
   "experience": [
     {
       "id": 1,
-      "role": "Senior Fullstack Developer",
-      "company": "Freelance",
-      "type": "freelance",
-      "period": "2022 - Present",
-      "description": "Delivering end-to-end web solutions for startups and established businesses worldwide.",
+      "role": "Junior Full-Stack Developer",
+      "company": "Printerpix",
+      "type": "fulltime",
+      "period": "Nov 2025 - Present",
+      "description": "Working across the personalised printing platform to improve performance, SEO, and user experience. Collaborate with design, marketing, and data teams to deliver high-impact features.",
       "highlights": [
-        "Completed 50+ successful projects across various industries",
-        "Maintained 100% client satisfaction with 5-star reviews",
-        "Reduced client development costs by 40% through efficient solutions"
+        "Built reusable UI components and marketing pages for peak e-commerce periods",
+        "Migrated legacy frontend code to Qwik, improving load times",
+        "Developed order-observability system for customer support teams",
+        "Created private S3 uploader package integrated with CEPH",
+        "Built automated E2E tests using Playwright"
       ]
     },
     {
       "id": 2,
-      "role": "Lead Frontend Developer",
-      "company": "Tech Startup Inc.",
+      "role": "Full-Stack Developer",
+      "company": "Zaman Bookings",
       "type": "fulltime",
-      "period": "2020 - 2022",
-      "description": "Led frontend development for a SaaS platform serving 50,000+ active users.",
+      "period": "Jan 2025 - Jul 2025",
+      "description": "Called back to fix bugs, improve performance, integrate Payload CMS, and develop premium features with focus on UX and responsive React components.",
       "highlights": [
-        "Improved application performance by 60% through optimization",
-        "Built component library adopted by 5 development teams",
-        "Mentored 5 junior developers to senior positions"
+        "Implemented multi-tenancy with Payload CMS for role-based access",
+        "Fixed key bugs and improved UX in staff dashboard",
+        "Added email reminders and dynamic client page generation using ISR"
       ]
     },
     {
       "id": 3,
-      "role": "Software Developer",
-      "company": "Digital Agency",
-      "type": "fulltime",
-      "period": "2018 - 2020",
-      "description": "Built responsive websites and web applications for Fortune 500 clients.",
+      "role": "Freelance Developer",
+      "company": "Upwork",
+      "type": "freelance",
+      "period": "Nov 2023 - Present",
+      "description": "Collaborated with clients to build Python scripts automating tasks and streamlining workflows.",
       "highlights": [
-        "Delivered 40+ client projects on time and budget",
-        "Pioneered React adoption within the organization",
-        "Developed internal tools that saved 20 hours/week"
+        "Built automation scripts for various client needs",
+        "Excellent feedback: \"The code is clean and works as designed\""
       ]
+    },
+    {
+      "id": 4,
+      "role": "Full-Stack Developer",
+      "company": "Zaman Bookings",
+      "type": "fulltime",
+      "period": "Sep 2024 - Dec 2024",
+      "description": "Built the MVP for beauty service businesses using Next.js, React, Node.js, MongoDB, and Better Auth.",
+      "highlights": [
+        "Built client dashboard with timetable and booking management",
+        "Developed algorithm for optimal time slot scheduling"
+      ]
+    },
+    {
+      "id": 5,
+      "role": "Developer (Internship)",
+      "company": "Jannah Cycle",
+      "type": "fulltime",
+      "period": "Sep 2023 - Mar 2024",
+      "description": "Joined volunteer tech team at startup focused on verified social and environmental impact data.",
+      "highlights": [
+        "Debugged and extended frontend functionality using Django",
+        "Collaborated with remote international team"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": 1,
+      "institution": "University of Westminster",
+      "degree": "Master of Science",
+      "field": "Health Psychology",
+      "period": "Sep 2020 - Sep 2021",
+      "grade": "Merit (2.1)",
+      "highlights": [
+        "Focused on research methodology and statistical analysis",
+        "Published research on AI acceptance in healthcare"
+      ]
+    },
+    {
+      "id": 2,
+      "institution": "University of Greenwich",
+      "degree": "Bachelor of Science",
+      "field": "Psychology",
+      "period": "Sep 2016 - May 2019",
+      "grade": "First Class Honours",
+      "highlights": [
+        "Strong foundation in research and analytical thinking",
+        "Developed quantitative and qualitative research skills"
+      ]
+    },
+    {
+      "id": 3,
+      "institution": "The City Academy",
+      "degree": "A Levels",
+      "field": "Mathematics, Psychology, Physics, Computing",
+      "period": "Sep 2014 - Jun 2016",
+      "grade": "B, B, C, C",
+      "highlights": []
+    }
+  ],
+  "publications": [
+    {
+      "id": 1,
+      "title": "Exploring Acceptability of AI-enabled Voice Assistants & Artificial Humans in Healthcare",
+      "journal": "AI & Society",
+      "date": "Feb 2025",
+      "description": "Cross-sectional survey investigating acceptance of AI-based healthcare assistants during COVID-19, using logistic regression and multiple regression analysis."
     }
   ],
   "accomplishments": [
     {
       "id": 1,
-      "title": "50+ Projects",
-      "description": "Successfully delivered projects from MVPs to enterprise applications",
+      "title": "3+ Years",
+      "description": "Professional development experience",
       "icon": "rocket",
-      "value": "50+"
+      "value": "3+"
     },
     {
       "id": 2,
-      "title": "5-Star Rating",
-      "description": "Consistently top-rated for quality and communication",
+      "title": "Published",
+      "description": "Research in AI & Society journal",
       "icon": "star",
-      "value": "5.0"
+      "value": "1"
     },
     {
       "id": 3,
       "title": "Open Source",
-      "description": "Active contributor with 1000+ GitHub stars",
+      "description": "ShipShip boilerplate creator",
       "icon": "github",
-      "value": "1K+"
+      "value": "OSS"
     },
     {
       "id": 4,
-      "title": "Tech Articles",
-      "description": "Published articles with 100K+ total reads",
+      "title": "First Class",
+      "description": "BSc Psychology Honours",
       "icon": "pen",
-      "value": "100K+"
+      "value": "1st"
     }
   ],
   "about": {
-    "story": "My journey into software development started when I built my first website at 16. What began as curiosity quickly evolved into a passion for creating digital experiences that make a difference. Over the years, I've evolved from crafting simple HTML pages to architecting complex fullstack applications that serve thousands of users.",
-    "approach": "I believe in writing clean, maintainable code that stands the test of time. Every project I take on receives my full dedication—I treat each one as if it were my own product. I stay current with the latest technologies while maintaining a pragmatic approach to problem-solving.",
-    "interests": ["Building side projects", "Open source contribution", "Learning emerging tech", "Mentoring developers"]
+    "story": "My journey combines psychology and technology in unique ways. With a Master's in Health Psychology and a First Class Honours in Psychology, I bring analytical problem-solving skills to software development. I transitioned into tech because I saw the potential to build tools that genuinely help people—from AI-driven healthcare research to booking systems for small businesses.",
+    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik or building open-source tools like ShipShip.",
+    "interests": ["AI & Healthcare", "Open Source", "Full-Stack Development", "User Experience", "Automation"]
   },
   "social": {
-    "github": "https://github.com/yourusername",
-    "linkedin": "https://linkedin.com/in/yourusername",
-    "twitter": "https://twitter.com/yourusername"
+    "github": "https://github.com/muratg98",
+    "linkedin": "https://linkedin.com/in/muratg98",
+    "twitter": "https://twitter.com/muratg98"
   }
 }

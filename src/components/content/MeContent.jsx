@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Mail, Calendar, Github, Linkedin, Twitter } from 'lucide-react';
+import { MapPin, Mail, Calendar, Github, Linkedin, Twitter, User } from 'lucide-react';
 import portfolioData from '../../data/portfolio.json';
 import './ContentStyles.css';
 
 export default function MeContent() {
   const { profile, about, social } = portfolioData;
+  const [imageError, setImageError] = useState(false);
+  
+  // Get initials for fallback avatar
+  const getInitials = (name) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  };
   
   return (
     <div className="content-section">
@@ -16,7 +23,18 @@ export default function MeContent() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <img src={profile.image} alt={profile.name} className="me-image" />
+          {!imageError ? (
+            <img 
+              src={profile.image} 
+              alt={profile.name} 
+              className="me-image" 
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="me-image-fallback">
+              <span>{getInitials(profile.name)}</span>
+            </div>
+          )}
           <div className="me-image-glow" />
         </motion.div>
         

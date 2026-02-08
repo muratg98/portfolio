@@ -8,6 +8,7 @@ import ProjectsContent from './components/content/ProjectsContent';
 import ExperienceContent from './components/content/ExperienceContent';
 import SkillsContent from './components/content/SkillsContent';
 import ContactContent from './components/content/ContactContent';
+import EducationContent from './components/content/EducationContent';
 import './index.css';
 
 function LoadingScreen() {
@@ -28,6 +29,7 @@ const sectionContent = {
   experience: { title: 'Experience', component: ExperienceContent },
   skills: { title: 'Skills', component: SkillsContent },
   contact: { title: 'Contact', component: ContactContent },
+  education: { title: 'Education', component: EducationContent },
 };
 
 function App() {

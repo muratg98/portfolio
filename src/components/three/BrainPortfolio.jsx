@@ -196,17 +196,29 @@ const COLORS = {
   magenta: '#C5299B',
   orange: '#FEAE51',
   cyan: '#00D9FF',
+  green: '#4ADE80',
   darkPurple: '#1a0a2e',
   brainGlow: '#84ccff',
 };
 
+// Section colors exported for use in App.jsx
+export const SECTION_COLORS = {
+  me: '#963CBD',
+  projects: '#FF6F61',
+  experience: '#C5299B',
+  skills: '#FEAE51',
+  contact: '#00D9FF',
+  education: '#4ADE80',
+};
+
 // Section node definitions - positions INSIDE the brain structure
 const SECTIONS = [
-  { id: 'me', label: 'Me', position: [0, 0.3, 0], color: COLORS.purple },
-  { id: 'projects', label: 'Projects', position: [-0.6, 0, -0.2], color: COLORS.coral },
-  { id: 'experience', label: 'Experience', position: [0.6, 0, -0.2], color: COLORS.magenta },
-  { id: 'skills', label: 'Skills', position: [-0.4, -0.4, 0.2], color: COLORS.orange },
-  { id: 'contact', label: 'Contact', position: [0.4, -0.4, 0.2], color: COLORS.cyan },
+  { id: 'me', label: 'Me', position: [0, 0.4, 0], color: COLORS.purple },
+  { id: 'projects', label: 'Projects', position: [-0.55, 0.1, -0.2], color: COLORS.coral },
+  { id: 'experience', label: 'Experience', position: [0.55, 0.1, -0.2], color: COLORS.magenta },
+  { id: 'skills', label: 'Skills', position: [-0.5, -0.35, 0.2], color: COLORS.orange },
+  { id: 'contact', label: 'Contact', position: [0.5, -0.35, 0.2], color: COLORS.cyan },
+  { id: 'education', label: 'Education', position: [0, -0.5, -0.3], color: COLORS.green },
 ];
 
 // Starfield background
@@ -1040,15 +1052,6 @@ function DynamicLighting({ activeSection, transitionProgress }) {
     </>
   );
 }
-
-// Section colors exported for use in App.jsx
-export const SECTION_COLORS = {
-  me: '#963CBD',
-  projects: '#FF6F61',
-  experience: '#C5299B',
-  skills: '#FEAE51',
-  contact: '#00D9FF',
-};
 
 // Main exported component
 export default function BrainPortfolio({ onSectionClick, activeSection, onBack, onZoomComplete }) {
