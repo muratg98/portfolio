@@ -4,10 +4,15 @@ import { Html, OrbitControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Camera animation on page load - starts from top, transitions to side view with zoom
-function CameraAnimation({ brainLoaded }) {
+// Also handles zoom-to-section animation
+function CameraAnimation({ brainLoaded, activeSection, onZoomComplete }) {
   const { camera } = useThree();
   const startTime = useRef(null);
-  const controlsRef = useRef(null);
+  const zoomStartTime = useRef(null);
+  const initialAnimDone = useRef(false);
+  const zoomingToSection = useRef(null);
+  const returnStartTime = useRef(null);
+  const savedCameraPos = useRef({ x: 0, y: 2, z: 12 });
   
   // Start position: top-down view, zoomed out
   const startPos = { x: 0, y: 25, z: 5 };
@@ -15,33 +20,109 @@ function CameraAnimation({ brainLoaded }) {
   const endPos = { x: 0, y: 2, z: 12 };
   
   const duration = 5000; // 5 seconds for smooth cinematic transition
+  const zoomDuration = 1500; // 1.5 seconds for section zoom
   
   useFrame((state) => {
     // Wait for brain to load before starting animation
     if (!brainLoaded) return;
     
-    if (startTime.current === null) {
-      startTime.current = state.clock.elapsedTime * 1000;
-      // Set initial camera position
-      camera.position.set(startPos.x, startPos.y, startPos.z);
-      camera.lookAt(0, 0, 0);
-    }
+    const currentTime = state.clock.elapsedTime * 1000;
     
-    const elapsed = state.clock.elapsedTime * 1000 - startTime.current;
-    
-    if (elapsed < duration) {
-      // Ease out cubic for smooth deceleration
-      const progress = elapsed / duration;
+    // Handle return from section (when activeSection becomes null)
+    if (activeSection === null && zoomingToSection.current !== null) {
+      if (returnStartTime.current === null) {
+        returnStartTime.current = currentTime;
+      }
+      
+      const elapsed = currentTime - returnStartTime.current;
+      const progress = Math.min(elapsed / zoomDuration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       
-      // Interpolate camera position
-      camera.position.x = startPos.x + (endPos.x - startPos.x) * eased;
-      camera.position.y = startPos.y + (endPos.y - startPos.y) * eased;
-      camera.position.z = startPos.z + (endPos.z - startPos.z) * eased;
-      
-      // Always look at the center of the brain
+      // Return to saved position
+      camera.position.x = camera.position.x + (savedCameraPos.current.x - camera.position.x) * eased;
+      camera.position.y = camera.position.y + (savedCameraPos.current.y - camera.position.y) * eased;
+      camera.position.z = camera.position.z + (savedCameraPos.current.z - camera.position.z) * eased;
       camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
+      
+      if (progress >= 1) {
+        zoomingToSection.current = null;
+        returnStartTime.current = null;
+      }
+      return;
+    }
+    
+    // Handle zoom to section
+    if (activeSection && activeSection !== zoomingToSection.current) {
+      // Save current camera position for return
+      if (zoomingToSection.current === null) {
+        savedCameraPos.current = {
+          x: camera.position.x,
+          y: camera.position.y,
+          z: camera.position.z
+        };
+      }
+      zoomingToSection.current = activeSection;
+      zoomStartTime.current = currentTime;
+    }
+    
+    if (zoomingToSection.current && activeSection) {
+      const section = SECTIONS.find(s => s.id === activeSection);
+      if (!section) return;
+      
+      const elapsed = currentTime - zoomStartTime.current;
+      const progress = Math.min(elapsed / zoomDuration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      
+      // Target position: in front of the section box (scaled by brain group scale of 4.0)
+      const targetPos = {
+        x: section.position[0] * 4.0,
+        y: section.position[1] * 4.0 + 0.5,
+        z: section.position[2] * 4.0 + 3
+      };
+      
+      camera.position.x = savedCameraPos.current.x + (targetPos.x - savedCameraPos.current.x) * eased;
+      camera.position.y = savedCameraPos.current.y + (targetPos.y - savedCameraPos.current.y) * eased;
+      camera.position.z = savedCameraPos.current.z + (targetPos.z - savedCameraPos.current.z) * eased;
+      
+      // Look at the section
+      const lookTarget = {
+        x: section.position[0] * 4.0,
+        y: section.position[1] * 4.0,
+        z: section.position[2] * 4.0
+      };
+      camera.lookAt(lookTarget.x, lookTarget.y, lookTarget.z);
+      camera.updateProjectionMatrix();
+      
+      if (progress >= 1 && onZoomComplete) {
+        onZoomComplete();
+      }
+      return;
+    }
+    
+    // Initial page load animation
+    if (!initialAnimDone.current) {
+      if (startTime.current === null) {
+        startTime.current = currentTime;
+        camera.position.set(startPos.x, startPos.y, startPos.z);
+        camera.lookAt(0, 0, 0);
+      }
+      
+      const elapsed = currentTime - startTime.current;
+      
+      if (elapsed < duration) {
+        const progress = elapsed / duration;
+        const eased = 1 - Math.pow(1 - progress, 3);
+        
+        camera.position.x = startPos.x + (endPos.x - startPos.x) * eased;
+        camera.position.y = startPos.y + (endPos.y - startPos.y) * eased;
+        camera.position.z = startPos.z + (endPos.z - startPos.z) * eased;
+        
+        camera.lookAt(0, 0, 0);
+        camera.updateProjectionMatrix();
+      } else {
+        initialAnimDone.current = true;
+      }
     }
   });
   
@@ -291,7 +372,7 @@ function ShootingStars() {
 }
 
 // Interactive Section Node - embedded inside the brain
-function SectionNode({ section, onClick }) {
+function SectionNode({ section, onClick, isActive, hideLabel }) {
   const meshRef = useRef();
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -301,13 +382,13 @@ function SectionNode({ section, onClick }) {
     
     const time = state.clock.elapsedTime;
     
-    // Gentle float animation
-    if (groupRef.current) {
+    // Gentle float animation (disable when active)
+    if (groupRef.current && !isActive) {
       groupRef.current.position.y = section.position[1] + Math.sin(time * 1.5 + section.position[0] * 2) * 0.02;
     }
     
-    // Pulse on hover
-    const targetScale = hovered ? 1.3 : 1;
+    // Pulse on hover or when active
+    const targetScale = isActive ? 2.0 : (hovered ? 1.3 : 1);
     const currentScale = meshRef.current.scale.x;
     const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.1);
     meshRef.current.scale.setScalar(newScale);
@@ -318,6 +399,7 @@ function SectionNode({ section, onClick }) {
   });
   
   const handlePointerOver = (e) => {
+    if (isActive) return;
     e.stopPropagation();
     setHovered(true);
     document.body.style.cursor = 'pointer';
@@ -325,15 +407,16 @@ function SectionNode({ section, onClick }) {
   
   const handlePointerOut = () => {
     setHovered(false);
-    document.body.style.cursor = 'grab';
+    if (!isActive) document.body.style.cursor = 'grab';
   };
   
   const handleClick = (e) => {
+    if (isActive) return;
     e.stopPropagation();
     onClick(section.id);
   };
   
-  const emissiveIntensity = hovered ? 1.2 : 0.4;
+  const emissiveIntensity = isActive ? 2.0 : (hovered ? 1.2 : 0.4);
   
   return (
     <group ref={groupRef} position={section.position}>
@@ -349,56 +432,58 @@ function SectionNode({ section, onClick }) {
           emissive={section.color}
           emissiveIntensity={emissiveIntensity}
           transparent
-          opacity={hovered ? 0.95 : 0.8}
+          opacity={isActive ? 0.6 : (hovered ? 0.95 : 0.8)}
           metalness={0.3}
           roughness={0.4}
         />
       </mesh>
       
       {/* Wireframe outline */}
-      <mesh scale={1.1}>
+      <mesh scale={isActive ? 2.2 : 1.1}>
         <boxGeometry args={[0.18, 0.18, 0.18]} />
         <meshBasicMaterial
           color={section.color}
           wireframe
           transparent
-          opacity={0.4}
+          opacity={isActive ? 0.8 : 0.4}
         />
       </mesh>
       
-      {/* Label */}
-      <Html
-        position={[0, 0.2, 0]}
-        center
-        distanceFactor={8}
-        style={{
-          color: hovered ? '#fff' : section.color,
-          fontSize: '11px',
-          fontFamily: 'JetBrains Mono, monospace',
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none',
-          textShadow: `0 0 10px ${section.color}, 0 0 20px ${section.color}`,
-          opacity: hovered ? 1 : 0.9,
-          transition: 'all 0.2s ease',
-          background: hovered ? 'rgba(0,0,0,0.5)' : 'transparent',
-          padding: hovered ? '4px 8px' : '0',
-          borderRadius: '4px',
-        }}
-      >
-        {section.label}
-      </Html>
+      {/* Label - hide when zoomed into any section */}
+      {!hideLabel && (
+        <Html
+          position={[0, 0.2, 0]}
+          center
+          distanceFactor={8}
+          style={{
+            color: hovered ? '#fff' : section.color,
+            fontSize: '11px',
+            fontFamily: 'JetBrains Mono, monospace',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none',
+            textShadow: `0 0 10px ${section.color}, 0 0 20px ${section.color}`,
+            opacity: hovered ? 1 : 0.9,
+            transition: 'all 0.2s ease',
+            background: hovered ? 'rgba(0,0,0,0.5)' : 'transparent',
+            padding: hovered ? '4px 8px' : '0',
+            borderRadius: '4px',
+          }}
+        >
+          {section.label}
+        </Html>
+      )}
       
-      {/* Glow sphere on hover */}
-      {hovered && (
-        <mesh>
+      {/* Glow sphere on hover or active */}
+      {(hovered || isActive) && (
+        <mesh scale={isActive ? 2 : 1}>
           <sphereGeometry args={[0.25, 16, 16]} />
           <meshBasicMaterial
             color={section.color}
             transparent
-            opacity={0.15}
+            opacity={isActive ? 0.3 : 0.15}
             blending={THREE.AdditiveBlending}
           />
         </mesh>
@@ -902,64 +987,178 @@ function ParticleBrain({ onLoaded }) {
 
 
 
+// Environment color overlay that transitions when section is active
+function EnvironmentOverlay({ activeSection, opacity }) {
+  const section = SECTIONS.find(s => s.id === activeSection);
+  if (!section || opacity <= 0) return null;
+  
+  return (
+    <mesh position={[0, 0, -50]} scale={[200, 200, 1]}>
+      <planeGeometry />
+      <meshBasicMaterial 
+        color={section.color} 
+        transparent 
+        opacity={opacity * 0.4}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
+}
+
+// Animated lighting that changes color based on active section
+function DynamicLighting({ activeSection, transitionProgress }) {
+  const section = SECTIONS.find(s => s.id === activeSection);
+  const baseIntensity = 0.4;
+  const activeIntensity = 1.2;
+  
+  const intensity = baseIntensity + (activeIntensity - baseIntensity) * transitionProgress;
+  const color = section ? section.color : COLORS.purple;
+  
+  return (
+    <>
+      <ambientLight intensity={0.4 + transitionProgress * 0.3} />
+      <pointLight 
+        position={[5, 5, 5]} 
+        intensity={activeSection ? intensity : 1.2} 
+        color={activeSection ? color : COLORS.purple} 
+      />
+      <pointLight 
+        position={[-5, -5, 5]} 
+        intensity={activeSection ? intensity * 0.8 : 0.8} 
+        color={activeSection ? color : COLORS.magenta} 
+      />
+      <pointLight 
+        position={[0, 5, -5]} 
+        intensity={activeSection ? intensity * 0.6 : 0.6} 
+        color={activeSection ? color : COLORS.cyan} 
+      />
+      <pointLight 
+        position={[0, -3, 3]} 
+        intensity={activeSection ? intensity * 0.5 : 0.4} 
+        color={activeSection ? color : COLORS.orange} 
+      />
+    </>
+  );
+}
+
+// Section colors exported for use in App.jsx
+export const SECTION_COLORS = {
+  me: '#963CBD',
+  projects: '#FF6F61',
+  experience: '#C5299B',
+  skills: '#FEAE51',
+  contact: '#00D9FF',
+};
+
 // Main exported component
-export default function BrainPortfolio({ onSectionClick }) {
+export default function BrainPortfolio({ onSectionClick, activeSection, onBack, onZoomComplete }) {
   const groupRef = useRef();
+  const controlsRef = useRef();
   const [brainLoaded, setBrainLoaded] = useState(false);
+  const [transitionProgress, setTransitionProgress] = useState(0);
+  const [zoomComplete, setZoomComplete] = useState(false);
   
   const handleBrainLoaded = () => {
     setBrainLoaded(true);
   };
   
+  const handleZoomComplete = () => {
+    setZoomComplete(true);
+    if (onZoomComplete) onZoomComplete();
+  };
+  
+  // Animate transition progress
+  useEffect(() => {
+    let animationFrame;
+    const animate = () => {
+      setTransitionProgress(prev => {
+        const target = activeSection ? 1 : 0;
+        const speed = 0.05;
+        const diff = target - prev;
+        if (Math.abs(diff) < 0.01) return target;
+        return prev + diff * speed;
+      });
+      animationFrame = requestAnimationFrame(animate);
+    };
+    animate();
+    return () => cancelAnimationFrame(animationFrame);
+  }, [activeSection]);
+  
+  // Reset zoom complete when section changes
+  useEffect(() => {
+    if (!activeSection) {
+      setZoomComplete(false);
+    }
+  }, [activeSection]);
+  
+  // Disable orbit controls when zoomed into section
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.enabled = !activeSection;
+    }
+  }, [activeSection]);
+  
+  const section = SECTIONS.find(s => s.id === activeSection);
+  
   return (
     <>
       {/* Camera zoom-in animation */}
-      <CameraAnimation brainLoaded={brainLoaded} />
+      <CameraAnimation 
+        brainLoaded={brainLoaded} 
+        activeSection={activeSection}
+        onZoomComplete={handleZoomComplete}
+      />
       
       {/* Orbit Controls - enables zoom, rotate */}
       <OrbitControls
+        ref={controlsRef}
         enablePan={false}
-        enableZoom={true}
-        enableRotate={true}
+        enableZoom={!activeSection}
+        enableRotate={!activeSection}
         minDistance={3}
         maxDistance={25}
         minPolarAngle={Math.PI * 0.15}
         maxPolarAngle={Math.PI * 0.85}
         rotateSpeed={0.5}
         zoomSpeed={0.8}
-        onStart={() => { document.body.style.cursor = 'grabbing'; }}
-        onEnd={() => { document.body.style.cursor = 'grab'; }}
+        onStart={() => { if (!activeSection) document.body.style.cursor = 'grabbing'; }}
+        onEnd={() => { if (!activeSection) document.body.style.cursor = 'grab'; }}
       />
       
-      {/* Background: Stars and nebula */}
-      <Starfield />
-      <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={0.5} />
-      <NebulaParticles count={200} color={COLORS.purple} radius={40} opacity={0.2} />
-      <NebulaParticles count={150} color={COLORS.magenta} radius={50} opacity={0.15} />
-      <NebulaParticles count={100} color={COLORS.cyan} radius={35} opacity={0.15} />
-      <ShootingStars />
+      {/* Environment color overlay */}
+      <EnvironmentOverlay activeSection={activeSection} opacity={transitionProgress} />
       
-      {/* Lighting */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[5, 5, 5]} intensity={1.2} color={COLORS.purple} />
-      <pointLight position={[-5, -5, 5]} intensity={0.8} color={COLORS.magenta} />
-      <pointLight position={[0, 5, -5]} intensity={0.6} color={COLORS.cyan} />
-      <pointLight position={[0, -3, 3]} intensity={0.4} color={COLORS.orange} />
+      {/* Background: Stars and nebula - fade out when zoomed */}
+      <group visible={transitionProgress < 0.8}>
+        <Starfield />
+        <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={0.5} />
+        <NebulaParticles count={200} color={COLORS.purple} radius={40} opacity={0.2 * (1 - transitionProgress)} />
+        <NebulaParticles count={150} color={COLORS.magenta} radius={50} opacity={0.15 * (1 - transitionProgress)} />
+        <NebulaParticles count={100} color={COLORS.cyan} radius={35} opacity={0.15 * (1 - transitionProgress)} />
+        <ShootingStars />
+      </group>
       
-      {/* Brain group */}
+      {/* Dynamic Lighting */}
+      <DynamicLighting activeSection={activeSection} transitionProgress={transitionProgress} />
+      
+      {/* Brain group - fade out when zoomed into section */}
       <group ref={groupRef} scale={4.0}>
-        {/* Particle Brain - loads OBJ model, falls back to procedural */}
-        <ParticleBrain onLoaded={handleBrainLoaded} />
-        
-        {/* Neural particles inside */}
-        <NeuralParticles count={80} />
+        <group visible={transitionProgress < 0.9}>
+          {/* Particle Brain - loads OBJ model */}
+          <ParticleBrain onLoaded={handleBrainLoaded} />
+          
+          {/* Neural particles inside */}
+          <NeuralParticles count={80} />
+        </group>
         
         {/* Section nodes embedded inside the brain */}
-        {SECTIONS.map((section) => (
+        {SECTIONS.map((sec) => (
           <SectionNode
-            key={section.id}
-            section={section}
+            key={sec.id}
+            section={sec}
             onClick={onSectionClick}
+            isActive={sec.id === activeSection}
+            hideLabel={activeSection !== null}
           />
         ))}
       </group>
