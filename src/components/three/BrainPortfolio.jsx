@@ -34,9 +34,9 @@ function CameraAnimation({ brainLoaded }) {
   return null;
 }
 
-// Custom hook to load and parse brain OBJ file (vertex-only)
-function useBrainVertices(url) {
-  const [vertices, setVertices] = useState(null);
+// Custom hook to load and parse brain OBJ file (with faces for proper edges)
+function useBrainData(url) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -47,7 +47,8 @@ function useBrainVertices(url) {
         return response.text();
       })
       .then(text => {
-        const positions = [];
+        const vertices = [];
+        const edges = new Set(); // Store unique edges from faces
         const lines = text.split('\n');
         
         for (const line of lines) {
@@ -55,16 +56,32 @@ function useBrainVertices(url) {
           if (trimmed.startsWith('v ')) {
             const parts = trimmed.split(/\s+/);
             if (parts.length >= 4) {
-              positions.push(
+              vertices.push(
                 parseFloat(parts[1]),
                 parseFloat(parts[2]),
                 parseFloat(parts[3])
               );
             }
+          } else if (trimmed.startsWith('f ')) {
+            // Parse face to extract edges
+            const parts = trimmed.split(/\s+/).slice(1);
+            const indices = parts.map(p => parseInt(p.split('/')[0]) - 1); // OBJ indices are 1-based
+            
+            // Create edges from face vertices
+            for (let i = 0; i < indices.length; i++) {
+              const a = indices[i];
+              const b = indices[(i + 1) % indices.length];
+              // Store edge as sorted pair to avoid duplicates
+              const edgeKey = a < b ? `${a}-${b}` : `${b}-${a}`;
+              edges.add(edgeKey);
+            }
           }
         }
         
-        setVertices(new Float32Array(positions));
+        setData({
+          vertices: new Float32Array(vertices),
+          edges: Array.from(edges).map(e => e.split('-').map(Number))
+        });
         setLoading(false);
       })
       .catch(err => {
@@ -74,7 +91,7 @@ function useBrainVertices(url) {
       });
   }, [url]);
   
-  return { vertices, loading, error };
+  return { data, loading, error };
 }
 
 // Psychology/Coder color palette
@@ -627,22 +644,24 @@ function NeuralLightning({ nodePositions, linePositions }) {
   );
 }
 
-// Line Brain - Uses real brain OBJ vertices with connected lines
+// Line Brain - Uses real brain OBJ with face-based edges for proper wireframe
 function ParticleBrain({ onLoaded }) {
   const linesRef = useRef();
-  const { vertices, loading, error } = useBrainVertices('/models/brain_vertex_low.obj');
+  const { data, loading, error } = useBrainData('/models/BrainUVS.obj');
   
   // Notify parent when brain is loaded
   useEffect(() => {
-    if (!loading && vertices && onLoaded) {
+    if (!loading && data && onLoaded) {
       onLoaded();
     }
-  }, [loading, vertices, onLoaded]);
+  }, [loading, data, onLoaded]);
   
-  // Create line connections from brain vertices - SURFACE ONLY
+  // Create line connections from brain mesh edges
   const lineData = useMemo(() => {
-    if (!vertices || vertices.length === 0) return null;
+    if (!data || !data.vertices || !data.edges) return null;
     
+    const vertices = data.vertices;
+    const edges = data.edges;
     const vertexCount = vertices.length / 3;
     
     // Find bounds and normalize
@@ -675,8 +694,7 @@ function ParticleBrain({ onLoaded }) {
       const z = (vertices[i * 3 + 2] - centerZ) * scaleFactor;
       
       // Use ellipsoid-adjusted distance to account for brain shape
-      // Brain is flatter on top, so adjust Y component
-      const adjustedY = y * 0.7; // compress Y for distance calc
+      const adjustedY = y * 0.7;
       const dist = Math.sqrt(x * x + adjustedY * adjustedY + z * z);
       maxDist = Math.max(maxDist, dist);
       
@@ -685,107 +703,66 @@ function ParticleBrain({ onLoaded }) {
     
     // Calculate distance threshold for surface vertices (outer 40%)
     const surfaceThreshold = maxDist * 0.6;
-    // Include vertices near the top regardless of distance (y > 0.8)
-    const surfaceVertices = normalizedVertices.filter(v => v.dist >= surfaceThreshold || v.y > 1.2);
     
-    // Build spatial grid for efficient neighbor lookup
-    const gridSize = 0.24;
-    const grid = new Map();
-    
-    for (const v of surfaceVertices) {
-      const key = `${Math.floor(v.x / gridSize)},${Math.floor(v.y / gridSize)},${Math.floor(v.z / gridSize)}`;
-      if (!grid.has(key)) grid.set(key, []);
-      grid.get(key).push(v);
-    }
-    
-    // Create line connections - connect nearby SURFACE vertices only
+    // Create line connections from mesh edges
     const linePositions = [];
     const lineColors = [];
-    const connections = new Set();
-    const connectedVertices = new Map(); // vertex index -> {x, y, z, color}
-    const connectionDistance = 0.38; // increased to maintain coverage on outer shell
-    const maxConnectionsPerVertex = 3; // reduced from 4
+    const connectedVertices = new Map();
     
     const purple = new THREE.Color(COLORS.purple);
     const cyan = new THREE.Color(COLORS.cyan);
     const magenta = new THREE.Color(COLORS.magenta);
     
-    for (const v of surfaceVertices) {
-      const gx = Math.floor(v.x / gridSize);
-      const gy = Math.floor(v.y / gridSize);
-      const gz = Math.floor(v.z / gridSize);
+    // Sample every Nth edge for performance (58k edges -> ~10k)
+    const edgeSampleRate = 6;
+    
+    for (let i = 0; i < edges.length; i += edgeSampleRate) {
+      const [aIdx, bIdx] = edges[i];
+      if (aIdx >= vertexCount || bIdx >= vertexCount) continue;
       
-      // Check neighboring grid cells
-      const neighbors = [];
-      for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dz = -1; dz <= 1; dz++) {
-            const key = `${gx + dx},${gy + dy},${gz + dz}`;
-            if (grid.has(key)) {
-              neighbors.push(...grid.get(key));
-            }
-          }
+      const v1 = normalizedVertices[aIdx];
+      const v2 = normalizedVertices[bIdx];
+      
+      // Only keep surface edges (both vertices on surface or top of brain)
+      const v1Surface = v1.dist >= surfaceThreshold || v1.y > 1.2;
+      const v2Surface = v2.dist >= surfaceThreshold || v2.y > 1.2;
+      
+      // Check midpoint is also on surface
+      const midX = (v1.x + v2.x) / 2;
+      const midY = (v1.y + v2.y) / 2;
+      const midZ = (v1.z + v2.z) / 2;
+      const midDist = Math.sqrt(midX * midX + (midY * 0.7) ** 2 + midZ * midZ);
+      const midSurface = midDist >= surfaceThreshold * 0.95 || midY > 1.2;
+      
+      if (v1Surface && v2Surface && midSurface) {
+        linePositions.push(v1.x, v1.y, v1.z);
+        linePositions.push(v2.x, v2.y, v2.z);
+        
+        // Color gradient based on Y position
+        const t1 = (v1.y + 2) / 4;
+        const t2 = (v2.y + 2) / 4;
+        
+        let color1, color2;
+        if (t1 < 0.5) {
+          color1 = cyan.clone().lerp(magenta, t1 * 2);
+        } else {
+          color1 = magenta.clone().lerp(purple, (t1 - 0.5) * 2);
         }
-      }
-      
-      // Find nearest neighbors and create connections
-      const distances = neighbors
-        .filter(n => n.index !== v.index)
-        .map(n => {
-          const midX = (v.x + n.x) / 2;
-          const midY = (v.y + n.y) / 2;
-          const midZ = (v.z + n.z) / 2;
-          const midDist = Math.sqrt(midX * midX + midY * midY + midZ * midZ);
-          
-          return {
-            vertex: n,
-            dist: Math.sqrt(
-              (n.x - v.x) ** 2 + 
-              (n.y - v.y) ** 2 + 
-              (n.z - v.z) ** 2
-            ),
-            midDist
-          };
-        })
-        // Only keep connections where midpoint is also on surface (strict - no internal lines)
-        .filter(d => d.dist < connectionDistance && d.midDist >= surfaceThreshold * 0.95)
-        .sort((a, b) => a.dist - b.dist)
-        .slice(0, maxConnectionsPerVertex);
-      
-      for (const { vertex: n } of distances) {
-        const connKey = v.index < n.index ? `${v.index}-${n.index}` : `${n.index}-${v.index}`;
-        if (!connections.has(connKey)) {
-          connections.add(connKey);
-          
-          linePositions.push(v.x, v.y, v.z);
-          linePositions.push(n.x, n.y, n.z);
-          
-          // Color gradient based on Y position
-          const t1 = (v.y + 2) / 4;
-          const t2 = (n.y + 2) / 4;
-          
-          let color1, color2;
-          if (t1 < 0.5) {
-            color1 = cyan.clone().lerp(magenta, t1 * 2);
-          } else {
-            color1 = magenta.clone().lerp(purple, (t1 - 0.5) * 2);
-          }
-          if (t2 < 0.5) {
-            color2 = cyan.clone().lerp(magenta, t2 * 2);
-          } else {
-            color2 = magenta.clone().lerp(purple, (t2 - 0.5) * 2);
-          }
-          
-          lineColors.push(color1.r, color1.g, color1.b);
-          lineColors.push(color2.r, color2.g, color2.b);
-          
-          // Track connected vertices for node circles
-          if (!connectedVertices.has(v.index)) {
-            connectedVertices.set(v.index, { x: v.x, y: v.y, z: v.z, color: color1 });
-          }
-          if (!connectedVertices.has(n.index)) {
-            connectedVertices.set(n.index, { x: n.x, y: n.y, z: n.z, color: color2 });
-          }
+        if (t2 < 0.5) {
+          color2 = cyan.clone().lerp(magenta, t2 * 2);
+        } else {
+          color2 = magenta.clone().lerp(purple, (t2 - 0.5) * 2);
+        }
+        
+        lineColors.push(color1.r, color1.g, color1.b);
+        lineColors.push(color2.r, color2.g, color2.b);
+        
+        // Track connected vertices for node circles
+        if (!connectedVertices.has(aIdx)) {
+          connectedVertices.set(aIdx, { x: v1.x, y: v1.y, z: v1.z, color: color1 });
+        }
+        if (!connectedVertices.has(bIdx)) {
+          connectedVertices.set(bIdx, { x: v2.x, y: v2.y, z: v2.z, color: color2 });
         }
       }
     }
@@ -794,9 +771,15 @@ function ParticleBrain({ onLoaded }) {
     const nodePositions = [];
     const nodeColors = [];
     const sectionPositions = SECTIONS.map(s => s.position);
-    const minDistFromSquares = 0.5; // minimum distance from section squares
+    const minDistFromSquares = 0.5;
     
-    for (const vertex of connectedVertices.values()) {
+    // Sample nodes for performance
+    const nodeArray = Array.from(connectedVertices.values());
+    const nodeSampleRate = 4;
+    
+    for (let i = 0; i < nodeArray.length; i += nodeSampleRate) {
+      const vertex = nodeArray[i];
+      
       // Check if this node is too close to any section square
       let tooClose = false;
       for (const sp of sectionPositions) {
@@ -824,7 +807,7 @@ function ParticleBrain({ onLoaded }) {
       nodeColors: new Float32Array(nodeColors),
       nodeCount: nodePositions.length / 3
     };
-  }, [vertices]);
+  }, [data]);
   
   // Slow rotation
   useFrame((state) => {
