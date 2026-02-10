@@ -82,6 +82,40 @@
         "Trained AI model on 1,000+ labeled data points",
         "Achieved over 90% accuracy in classification"
       ]
+    },
+    {
+      "id": 5,
+      "title": "CardQuest London",
+      "description": "Event website for TCG trading card events with a full admin panel allowing content management - text editing, event creation, image uploads and more.",
+      "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
+      "tags": ["Next.js", "Payload CMS", "TypeScript", "Admin Panel"],
+      "liveUrl": "https://cardquestlondon.co.uk",
+      "githubUrl": "https://github.com/muratg98",
+      "featured": false,
+      "color": "#8b5cf6",
+      "period": "2025",
+      "highlights": [
+        "Full admin panel for dynamic content management",
+        "Event scheduling and management system",
+        "Image upload and gallery functionality"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "GitDynamics",
+      "description": "Developer tool for applying conditions to code, enabling dynamic boilerplates that significantly improve coding speed and project setup time.",
+      "image": "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&h=600&fit=crop",
+      "tags": ["Developer Tools", "Boilerplate", "Automation"],
+      "liveUrl": "https://gitdynamic.io",
+      "githubUrl": "https://github.com/muratg98",
+      "featured": true,
+      "color": "#3b82f6",
+      "period": "2025",
+      "highlights": [
+        "Conditional code blocks for dynamic boilerplates",
+        "Significantly reduces project setup time",
+        "Flexible configuration for any tech stack"
+      ]
     }
   ],
   "experience": [

@@ -1,8 +1,7 @@
 import { useState, Suspense, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ThemeProvider } from './context/ThemeContext';
 import BrainPortfolio, { SECTION_COLORS } from './components/three/BrainPortfolio';
-import ThemeToggle from './components/ui/ThemeToggle';
+import HireMe from './components/ui/HireMe';
 import MeContent from './components/content/MeContent';
 import ProjectsContent from './components/content/ProjectsContent';
 import ExperienceContent from './components/content/ExperienceContent';
@@ -31,6 +30,15 @@ const sectionContent = {
   contact: { title: 'Contact', component: ContactContent },
   education: { title: 'Education', component: EducationContent },
 };
+
+const SECTIONS = [
+  { id: 'me', label: 'Me' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'contact', label: 'Contact' },
+  { id: 'education', label: 'Education' },
+];
 
 function App() {
   const [activeSection, setActiveSection] = useState(null);
@@ -65,10 +73,25 @@ function App() {
   const sectionColor = activeSection ? SECTION_COLORS[activeSection] : '#963CBD';
 
   return (
-    <ThemeProvider>
-      <div className="brain-portfolio">
-        {/* Theme Toggle */}
-        <ThemeToggle />
+      <div className="brain-portfolio" data-theme="dark">
+        {/* Floating Navigation Bar */}
+        {!activeSection && (
+          <nav className="floating-nav">
+            {SECTIONS.map((section) => (
+              <button
+                key={section.id}
+                className="nav-node"
+                onClick={() => handleSectionClick(section.id)}
+                style={{
+                  '--node-color': SECTION_COLORS[section.id],
+                }}
+              >
+                <span className="nav-node-box" />
+                <span className="nav-node-label">{section.label}</span>
+              </button>
+            ))}
+          </nav>
+        )}
 
         {/* Full-screen 3D Brain Canvas */}
         <div className="brain-canvas">
@@ -115,6 +138,7 @@ function App() {
             }}
           >
             <div
+              className="content-modal"
               onClick={(e) => e.stopPropagation()}
               onWheel={(e) => e.stopPropagation()}
               style={{
@@ -172,10 +196,13 @@ function App() {
           </div>
         )}
 
-        {/* Instructions - hide when zoomed into section */}
+        {/* Bottom Bar - Instructions + Hire Me Button */}
         {!activeSection && (
-          <div className="brain-instructions">
-            <span className="code-text">// drag to rotate • scroll to zoom • click a node</span>
+          <div className="bottom-bar">
+            <div className="brain-instructions">
+              <span className="code-text">// drag to rotate • scroll to zoom • click a node</span>
+            </div>
+            <HireMe />
           </div>
         )}
 
@@ -184,7 +211,6 @@ function App() {
           <span className="code-text">designed by MGRyko</span>
         </div>
       </div>
-    </ThemeProvider>
   );
 }
 

@@ -5,19 +5,19 @@ import * as THREE from 'three';
 
 // Camera animation on page load - starts from top, transitions to side view with zoom
 // Also handles zoom-to-section animation
-function CameraAnimation({ brainLoaded, activeSection, onZoomComplete }) {
+function CameraAnimation({ brainLoaded, activeSection, onZoomComplete, isMobile }) {
   const { camera } = useThree();
   const startTime = useRef(null);
   const zoomStartTime = useRef(null);
   const initialAnimDone = useRef(false);
   const zoomingToSection = useRef(null);
   const returnStartTime = useRef(null);
-  const savedCameraPos = useRef({ x: 0, y: 2, z: 12 });
+  const savedCameraPos = useRef(isMobile ? { x: 0, y: 3, z: 22 } : { x: 0, y: 2, z: 12 });
   
   // Start position: top-down view, zoomed out
   const startPos = { x: 0, y: 25, z: 5 };
-  // End position: side view, slightly zoomed in
-  const endPos = { x: 0, y: 2, z: 12 };
+  // End position: side view - zoomed out more on mobile for better visibility
+  const endPos = isMobile ? { x: 0, y: 3, z: 22 } : { x: 0, y: 2, z: 12 };
   
   const duration = 5000; // 5 seconds for smooth cinematic transition
   const zoomDuration = 1500; // 1.5 seconds for section zoom
@@ -129,7 +129,7 @@ function CameraAnimation({ brainLoaded, activeSection, onZoomComplete }) {
   return null;
 }
 
-// Custom hook to load and parse brain OBJ file (with faces for proper edges)
+// Custom hook to load and parse brain OBJ file (with faces for proper edges and mesh)
 function useBrainData(url) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -144,6 +144,7 @@ function useBrainData(url) {
       .then(text => {
         const vertices = [];
         const edges = new Set(); // Store unique edges from faces
+        const faces = []; // Store face indices for mesh
         const lines = text.split('\n');
         
         for (const line of lines) {
@@ -158,9 +159,18 @@ function useBrainData(url) {
               );
             }
           } else if (trimmed.startsWith('f ')) {
-            // Parse face to extract edges
+            // Parse face to extract edges and face indices
             const parts = trimmed.split(/\s+/).slice(1);
             const indices = parts.map(p => parseInt(p.split('/')[0]) - 1); // OBJ indices are 1-based
+            
+            // Store face indices for mesh (triangulate if needed)
+            if (indices.length === 3) {
+              faces.push(indices[0], indices[1], indices[2]);
+            } else if (indices.length === 4) {
+              // Quad - split into two triangles
+              faces.push(indices[0], indices[1], indices[2]);
+              faces.push(indices[0], indices[2], indices[3]);
+            }
             
             // Create edges from face vertices
             for (let i = 0; i < indices.length; i++) {
@@ -175,7 +185,8 @@ function useBrainData(url) {
         
         setData({
           vertices: new Float32Array(vertices),
-          edges: Array.from(edges).map(e => e.split('-').map(Number))
+          edges: Array.from(edges).map(e => e.split('-').map(Number)),
+          faces: new Uint32Array(faces)
         });
         setLoading(false);
       })
@@ -645,15 +656,15 @@ function NeuralLightning({ nodePositions, linePositions }) {
   useFrame((state) => {
     const time = state.clock.elapsedTime * 1000;
     
-    // Trigger new lightning batch every 2-6 seconds
+    // Trigger new lightning batch every 1-3 seconds
     if (time - lastFlashTime.current > nextFlashDelay.current && adjacencyMap.size > 0) {
       lastFlashTime.current = time;
-      nextFlashDelay.current = 2000 + Math.random() * 4000;
+      nextFlashDelay.current = 1000 + Math.random() * 2000;
       
       const keys = Array.from(adjacencyMap.keys());
       
-      // Create 1-5 simultaneous lightnings
-      const numLightnings = 1 + Math.floor(Math.random() * 5);
+      // Create 2-10 simultaneous lightnings
+      const numLightnings = 2 + Math.floor(Math.random() * 9);
       const newLightnings = [];
       
       for (let i = 0; i < numLightnings; i++) {
@@ -755,6 +766,32 @@ function NeuralLightning({ nodePositions, linePositions }) {
   );
 }
 
+// Brain skin mesh component with proper normals
+function BrainSkinMesh({ vertices, indices }) {
+  const meshRef = useRef();
+  
+  // Create geometry with computed normals
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+    geo.setIndex(new THREE.BufferAttribute(indices, 1));
+    geo.computeVertexNormals();
+    return geo;
+  }, [vertices, indices]);
+  
+  return (
+    <mesh ref={meshRef} geometry={geometry}>
+      <meshBasicMaterial
+        color="#e8b4d9"
+        transparent
+        opacity={0.15}
+        side={THREE.BackSide}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+}
+
 // Line Brain - Uses real brain OBJ with face-based edges for proper wireframe
 function ParticleBrain({ onLoaded }) {
   const linesRef = useRef();
@@ -767,12 +804,13 @@ function ParticleBrain({ onLoaded }) {
     }
   }, [loading, data, onLoaded]);
   
-  // Create line connections from brain mesh edges
+// Create line connections from brain mesh edges
   const lineData = useMemo(() => {
     if (!data || !data.vertices || !data.edges) return null;
     
     const vertices = data.vertices;
     const edges = data.edges;
+    const faces = data.faces;
     const vertexCount = vertices.length / 3;
     
     // Find bounds and normalize
@@ -795,6 +833,9 @@ function ParticleBrain({ onLoaded }) {
     const maxRange = Math.max(maxX - minX, maxY - minY, maxZ - minZ);
     const scaleFactor = 4.0 / maxRange;
     
+    // Create normalized vertex positions for mesh
+    const meshVertices = new Float32Array(vertexCount * 3);
+    
     // Create normalized vertex positions with distance from center
     const normalizedVertices = [];
     let maxDist = 0;
@@ -803,6 +844,11 @@ function ParticleBrain({ onLoaded }) {
       const x = (vertices[i * 3] - centerX) * scaleFactor;
       const y = (vertices[i * 3 + 1] - centerY) * scaleFactor;
       const z = (vertices[i * 3 + 2] - centerZ) * scaleFactor;
+      
+      // Store normalized vertices for mesh
+      meshVertices[i * 3] = x;
+      meshVertices[i * 3 + 1] = y;
+      meshVertices[i * 3 + 2] = z;
       
       // Use ellipsoid-adjusted distance to account for brain shape
       const adjustedY = y * 0.7;
@@ -916,13 +962,16 @@ function ParticleBrain({ onLoaded }) {
       }
     }
     
-    return {
+return {
       positions: new Float32Array(linePositions),
       colors: new Float32Array(lineColors),
       count: linePositions.length / 3,
       nodePositions: new Float32Array(nodePositions),
       nodeColors: new Float32Array(nodeColors),
-      nodeCount: nodePositions.length / 3
+      nodeCount: nodePositions.length / 3,
+      // Mesh data for skin layer
+      meshVertices: meshVertices,
+      meshIndices: faces
     };
   }, [data]);
   
@@ -938,8 +987,16 @@ function ParticleBrain({ onLoaded }) {
     return null;
   }
   
-  return (
+return (
     <group ref={linesRef}>
+      {/* Semi-transparent skin mesh */}
+      {lineData.meshVertices && lineData.meshIndices && (
+        <BrainSkinMesh 
+          vertices={lineData.meshVertices} 
+          indices={lineData.meshIndices} 
+        />
+      )}
+      
       {/* Connection lines */}
       <lineSegments>
         <bufferGeometry>
@@ -1060,6 +1117,15 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
   const [brainLoaded, setBrainLoaded] = useState(false);
   const [transitionProgress, setTransitionProgress] = useState(0);
   const [zoomComplete, setZoomComplete] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const handleBrainLoaded = () => {
     setBrainLoaded(true);
@@ -1110,6 +1176,7 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         brainLoaded={brainLoaded} 
         activeSection={activeSection}
         onZoomComplete={handleZoomComplete}
+        isMobile={isMobile}
       />
       
       {/* Orbit Controls - enables zoom, rotate */}
@@ -1118,8 +1185,8 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         enablePan={false}
         enableZoom={!activeSection}
         enableRotate={!activeSection}
-        minDistance={3}
-        maxDistance={25}
+        minDistance={isMobile ? 10 : 3}
+        maxDistance={isMobile ? 40 : 35}
         minPolarAngle={Math.PI * 0.15}
         maxPolarAngle={Math.PI * 0.85}
         rotateSpeed={0.5}

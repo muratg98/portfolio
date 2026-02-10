@@ -3,13 +3,52 @@ import { ExternalLink, Github } from 'lucide-react';
 import portfolioData from '../../data/portfolio.json';
 import './ContentStyles.css';
 
+// Parse period string to get a sortable date value (higher = more recent)
+function getDateValue(period) {
+  if (!period) return 0;
+  
+  // "Ongoing" projects are most recent
+  if (period.toLowerCase().includes('ongoing')) return 9999;
+  
+  const months = {
+    'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6,
+    'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12
+  };
+  
+  // Try to find year and month - look for end date first (after "-"), otherwise start date
+  const parts = period.split('-');
+  const datePart = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+  
+  // Match "Mon YYYY" or just "YYYY"
+  const monthMatch = datePart.toLowerCase().match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+  const yearMatch = datePart.match(/(\d{4})/);
+  
+  const year = yearMatch ? parseInt(yearMatch[1]) : 2020;
+  const month = monthMatch ? months[monthMatch[1]] : 12;
+  
+  return year * 100 + month;
+}
+
+// Sort projects: featured first, then by date (most recent first)
+function sortProjects(projects) {
+  return [...projects].sort((a, b) => {
+    // Featured projects always first
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    
+    // Then by date (most recent first)
+    return getDateValue(b.period) - getDateValue(a.period);
+  });
+}
+
 export default function ProjectsContent() {
   const { projects } = portfolioData;
+  const sortedProjects = sortProjects(projects);
   
   return (
     <div className="content-section">
       <div className="projects-grid">
-        {projects.map((project, index) => (
+        {sortedProjects.map((project, index) => (
           <motion.div
             key={project.id}
             className="project-card"
