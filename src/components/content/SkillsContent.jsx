@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Code2, Server, Wrench } from 'lucide-react';
+import { Code2, Server, Wrench, Sparkles } from 'lucide-react';
 import portfolioData from '../../data/portfolio.json';
 import './ContentStyles.css';
 
@@ -7,6 +7,7 @@ const skillCategories = [
   { key: 'frontend', label: 'Frontend', icon: Code2, color: '#963CBD' },
   { key: 'backend', label: 'Backend', icon: Server, color: '#FF6F61' },
   { key: 'tools', label: 'Tools & DevOps', icon: Wrench, color: '#00D9FF' },
+  { key: 'ai', label: 'AI Development', icon: Sparkles, color: '#4ADE80' },
 ];
 
 export default function SkillsContent() {

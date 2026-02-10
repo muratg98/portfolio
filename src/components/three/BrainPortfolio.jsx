@@ -336,13 +336,15 @@ function NebulaParticles({ count = 300, color, radius = 30, opacity = 0.3 }) {
   );
 }
 
-// Shooting stars / meteors
+// Shooting stars / meteors - optimized with useRef to avoid setState in useFrame
 function ShootingStars() {
   const groupRef = useRef();
-  const [stars, setStars] = useState([]);
+  const starsRef = useRef([]);
+  const [, forceUpdate] = useState(0);
+  const frameCount = useRef(0);
   
-  useFrame((state) => {
-    const time = state.clock.elapsedTime;
+  useFrame(() => {
+    frameCount.current++;
     
     // Occasionally spawn a shooting star
     if (Math.random() < 0.002) {
@@ -361,19 +363,23 @@ function ShootingStars() {
         life: 0,
         maxLife: 60 + Math.random() * 60
       };
-      setStars(prev => [...prev.slice(-5), newStar]);
+      starsRef.current = [...starsRef.current.slice(-5), newStar];
     }
     
     // Update existing stars
-    setStars(prev => prev
+    starsRef.current = starsRef.current
       .map(star => ({ ...star, life: star.life + 1 }))
-      .filter(star => star.life < star.maxLife)
-    );
+      .filter(star => star.life < star.maxLife);
+    
+    // Force re-render every 3 frames for smooth animation (20fps for stars is fine)
+    if (frameCount.current % 3 === 0) {
+      forceUpdate(n => n + 1);
+    }
   });
   
   return (
     <group ref={groupRef}>
-      {stars.map(star => (
+      {starsRef.current.map(star => (
         <mesh
           key={star.id}
           position={[

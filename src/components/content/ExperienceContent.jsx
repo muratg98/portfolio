@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, Building2, Clock } from 'lucide-react';
+import { Building2, Clock } from 'lucide-react';
 import portfolioData from '../../data/portfolio.json';
 import './ContentStyles.css';
 

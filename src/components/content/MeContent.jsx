@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Mail, Calendar, Github, Linkedin, Twitter, User } from 'lucide-react';
+import { MapPin, Mail, Calendar, Github, Linkedin, Twitter } from 'lucide-react';
 import portfolioData from '../../data/portfolio.json';
 import './ContentStyles.css';
 

@@ -8,13 +8,13 @@
     "email": "muratgungor-98@hotmail.com",
     "location": "London, England, UK",
     "availability": "Open to opportunities",
-    "phone": "+447950271780",
     "website": "www.muratg.dev"
   },
   "skills": {
     "frontend": ["React", "Next.js", "TypeScript", "Qwik", "Tailwind CSS", "HTML/CSS"],
     "backend": ["Node.js", "Express", "Django", "Flask", "Payload CMS", "Python"],
-    "tools": ["Git", "Docker", "AWS S3", "MongoDB", "PostgreSQL", "Playwright", "Pandas"]
+    "tools": ["Git", "Docker", "AWS S3", "MongoDB", "PostgreSQL", "Playwright", "Pandas"],
+    "ai": ["Claude Code", "OpenCode", "Cursor", "GPT API", "AI Prompt Engineering", "LLM Integration"]
   },
   "projects": [
     {
