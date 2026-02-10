@@ -43,6 +43,15 @@ const SECTIONS = [
 function App() {
   const [activeSection, setActiveSection] = useState(null);
   const [showContent, setShowContent] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleSectionClick = (sectionId) => {
     setActiveSection(sectionId);
@@ -200,7 +209,12 @@ function App() {
         {!activeSection && (
           <div className="bottom-bar">
             <div className="brain-instructions">
-              <span className="code-text">// drag to rotate • scroll to zoom • click a node</span>
+              <span className="code-text">
+                {isMobile 
+                  ? '// drag to rotate • pinch to zoom • tap a node'
+                  : '// drag to rotate • scroll to zoom • click a node'
+                }
+              </span>
             </div>
             <HireMe />
           </div>

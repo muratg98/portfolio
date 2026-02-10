@@ -1185,7 +1185,7 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         isMobile={isMobile}
       />
       
-      {/* Orbit Controls - enables zoom, rotate */}
+{/* Orbit Controls - enables zoom, rotate */}
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
@@ -1197,6 +1197,7 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         maxPolarAngle={Math.PI * 0.85}
         rotateSpeed={0.5}
         zoomSpeed={0.8}
+        touches={{ ONE: 1, TWO: 2 }}
         onStart={() => { if (!activeSection) document.body.style.cursor = 'grabbing'; }}
         onEnd={() => { if (!activeSection) document.body.style.cursor = 'grab'; }}
       />
