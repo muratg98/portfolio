@@ -108,7 +108,8 @@ function App() {
             <Canvas
               camera={{ position: [0, 25, 5], fov: 50 }}
               gl={{ antialias: true, alpha: true }}
-              dpr={[1, 2]}
+              dpr={isMobile ? [1, 1.5] : [1, 2]}
+              style={{ touchAction: 'none' }}
             >
               <BrainPortfolio 
                 onSectionClick={handleSectionClick}

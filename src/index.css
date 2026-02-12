@@ -139,6 +139,8 @@ main {
   inset: 0;
   z-index: 1;
   cursor: grab;
+  touch-action: none;
+  -webkit-touch-callout: none;
 }
 
 .brain-canvas:active {
@@ -148,6 +150,10 @@ main {
 .brain-canvas canvas {
   width: 100% !important;
   height: 100% !important;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Bottom Bar Container */
@@ -341,8 +347,10 @@ main {
   
   .nav-node {
     flex-direction: column;
-    padding: 0.5rem 0.6rem;
+    padding: 0.6rem 0.7rem;
     gap: 0.3rem;
+    min-width: 44px;
+    min-height: 44px;
   }
   
   .nav-node-label {
@@ -733,6 +741,12 @@ main {
   
   .section-header {
     margin-bottom: 3rem;
+  }
+  
+  /* Improve modal responsiveness on mobile */
+  .content-modal {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
 

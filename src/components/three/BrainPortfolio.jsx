@@ -455,7 +455,7 @@ function SectionNode({ section, onClick, isActive, hideLabel }) {
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
-        <boxGeometry args={[0.18, 0.18, 0.18]} />
+        <boxGeometry args={[0.27, 0.27, 0.27]} />
         <meshStandardMaterial
           color={section.color}
           emissive={section.color}
@@ -469,7 +469,7 @@ function SectionNode({ section, onClick, isActive, hideLabel }) {
       
       {/* Wireframe outline */}
       <mesh scale={isActive ? 2.2 : 1.1}>
-        <boxGeometry args={[0.18, 0.18, 0.18]} />
+        <boxGeometry args={[0.27, 0.27, 0.27]} />
         <meshBasicMaterial
           color={section.color}
           wireframe
@@ -486,7 +486,7 @@ function SectionNode({ section, onClick, isActive, hideLabel }) {
           distanceFactor={8}
           style={{
             color: hovered ? '#fff' : section.color,
-            fontSize: '11px',
+            fontSize: '14px',
             fontFamily: 'JetBrains Mono, monospace',
             fontWeight: '600',
             textTransform: 'uppercase',
@@ -1195,8 +1195,8 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         maxDistance={isMobile ? 40 : 35}
         minPolarAngle={Math.PI * 0.15}
         maxPolarAngle={Math.PI * 0.85}
-        rotateSpeed={0.5}
-        zoomSpeed={0.8}
+        rotateSpeed={isMobile ? 0.7 : 0.5}
+        zoomSpeed={isMobile ? 1.2 : 0.8}
         touches={{ ONE: 1, TWO: 2 }}
         onStart={() => { if (!activeSection) document.body.style.cursor = 'grabbing'; }}
         onEnd={() => { if (!activeSection) document.body.style.cursor = 'grab'; }}
