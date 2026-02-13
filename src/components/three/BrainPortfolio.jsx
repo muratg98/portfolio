@@ -1197,7 +1197,7 @@ export default function BrainPortfolio({ onSectionClick, activeSection, onBack, 
         maxPolarAngle={Math.PI * 0.85}
         rotateSpeed={isMobile ? 0.7 : 0.5}
         zoomSpeed={isMobile ? 1.2 : 0.8}
-        touches={{ ONE: 1, TWO: 2 }}
+        touches={{ ONE: 0, TWO: 2 }}
         onStart={() => { if (!activeSection) document.body.style.cursor = 'grabbing'; }}
         onEnd={() => { if (!activeSection) document.body.style.cursor = 'grab'; }}
       />
