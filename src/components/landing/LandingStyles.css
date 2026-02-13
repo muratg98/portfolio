@@ -336,7 +336,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 2rem;
+  padding: 0.6rem 1.5rem;
   background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta));
   border: none;
   border-radius: 12px;
@@ -345,11 +345,31 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .hero-cta-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(150, 60, 189, 0.4);
+}
+
+.hero-cta-primary .cta-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.hero-cta-primary .cta-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hero-cta-primary .cta-subtitle {
+  font-size: 0.65rem;
+  font-weight: 400;
+  opacity: 0.8;
+  white-space: nowrap;
 }
 
 .hero-cta-secondary {
@@ -577,16 +597,17 @@
   }
   
   .hero-ctas .hero-cta-primary {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+    height: auto;
+  }
+  
+  .hero-ctas .hero-cta-primary .cta-subtitle {
     display: none;
   }
   
   .hero-ctas .hero-cta-secondary {
-    padding: 0 1.5rem;
-    font-size: 0.95rem;
-    height: 44px;
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta));
-    border: none;
-    color: white;
+    display: none;
   }
   
   .hero-ctas .hero-social {
@@ -972,11 +993,22 @@
    ============================================ */
 
 .skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
   margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 .skill-category-card {
   position: relative;
+  padding: 1.5rem;
 }
 
 .skill-card-header {
@@ -1037,6 +1069,12 @@
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .skills-cloud {
+    padding: 1.5rem;
+  }
+}
+
 .skills-cloud-inner {
   display: flex;
   flex-wrap: wrap;
@@ -1044,10 +1082,22 @@
   gap: 1rem;
 }
 
+@media (max-width: 768px) {
+  .skills-cloud-inner {
+    gap: 0.75rem;
+  }
+}
+
 .skill-cloud-tag {
   color: var(--text-muted);
   transition: all 0.3s ease;
   animation: float 3s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .skill-cloud-tag {
+    font-size: 0.9rem !important;
+  }
 }
 
 .skill-cloud-tag:hover {

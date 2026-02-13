@@ -46,13 +46,13 @@ export default function SkillsSection() {
           </p>
         </div>
 
-        <div className="bento-grid skills-grid">
+        <div className="skills-grid">
           {skillCategories.map((category) => {
             const IconComponent = category.icon;
             return (
               <div 
                 key={category.key} 
-                className="bento-card glass-card skill-category-card"
+                className="glass-card skill-category-card"
                 style={{ '--skill-accent': category.color }}
               >
                 <div className="skill-card-header">

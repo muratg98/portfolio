@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Lightbulb, Brain } from 'lucide-react';
 import HeroBrain from './HeroBrain';
 import portfolioData from '../../data/portfolio.json';
 
@@ -50,7 +50,7 @@ export default function Hero({ onEnterBrain }) {
           </h2>
           
           <p className="hero-tagline">
-            4+ years building everything from AI-powered tools and SaaS platforms to open-source developer utilities and e-commerce solutions.
+            3+ years crafting SaaS platforms, AI-powered outreach systems, booking solutions, and developer tools that ship faster.
           </p>
           
           {/* Mobile brain - shows between tagline and CTA */}
@@ -59,15 +59,19 @@ export default function Hero({ onEnterBrain }) {
           </div>
           
           <div className="hero-ctas">
-            <button className="hero-cta-primary" onClick={onEnterBrain}>
-              <span>Explore My Brain</span>
+            <a href={`mailto:${profile.email}?subject=I have an idea!`} className="hero-cta-primary">
+              <Lightbulb size={18} />
+              <div className="cta-text">
+                <span className="cta-title">Got an Idea?</span>
+                <span className="cta-subtitle">Claim your free landing page</span>
+              </div>
               <ArrowRight size={18} />
-            </button>
-            
-            <a href={`mailto:${profile.email}`} className="hero-cta-secondary">
-              <Mail size={18} />
-              <span>Hire Me</span>
             </a>
+            
+            <button className="hero-cta-secondary" onClick={onEnterBrain}>
+              <Brain size={18} />
+              <span>Brain View</span>
+            </button>
             
             <div className="hero-social">
               <a href={social.github} target="_blank" rel="noopener noreferrer" className="social-icon">
