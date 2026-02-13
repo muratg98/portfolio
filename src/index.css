@@ -1119,3 +1119,177 @@ body:has(.hire-me-overlay) .bottom-bar {
     padding: 1.25rem 1.5rem 1.5rem;
   }
 }
+
+/* ================================
+   App Root & Page Transitions
+   ================================ */
+.app-root {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.page-container {
+  min-height: 100vh;
+}
+
+.page-container.transitioning {
+  pointer-events: none;
+}
+
+/* Transition Overlay */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.transition-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.transition-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-primary) 0%, var(--accent-secondary) 50%, transparent 70%);
+}
+
+/* Zoom In Animation (Landing -> Brain) */
+.transition-overlay.zoom-in .transition-circle {
+  animation: zoomInPulse 0.8s ease-out forwards;
+}
+
+@keyframes zoomInPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(30);
+    opacity: 0;
+  }
+}
+
+/* Zoom Out Animation (Brain -> Landing) */
+.transition-overlay.zoom-out .transition-circle {
+  animation: zoomOutPulse 0.6s ease-in forwards;
+}
+
+@keyframes zoomOutPulse {
+  0% {
+    transform: scale(30);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* ================================
+   Back to Landing Button
+   ================================ */
+.back-to-landing-btn {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInLeft 0.5s ease 0.3s both;
+}
+
+.back-to-landing-btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--accent-cyan);
+  transform: translateX(-4px);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+.back-to-landing-btn .back-arrow {
+  color: var(--accent-cyan);
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.back-to-landing-btn:hover .back-arrow {
+  transform: translateX(-4px);
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile adjustments for back button */
+@media (max-width: 768px) {
+  .back-to-landing-btn {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-to-landing-btn {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .back-to-landing-btn span:not(.back-arrow) {
+    display: none;
+  }
+  
+  .back-to-landing-btn .back-arrow {
+    font-size: 1.25rem;
+  }
+}
+
+/* ================================
+   Brain Loading Screen (Lazy Load)
+   ================================ */
+.brain-loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  z-index: 100;
+}
