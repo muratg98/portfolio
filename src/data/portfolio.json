@@ -11,12 +11,65 @@
     "website": "www.muratg.dev"
   },
   "skills": {
-    "frontend": ["React", "Next.js", "TypeScript", "Qwik", "Tailwind CSS", "HTML/CSS"],
-    "backend": ["Node.js", "Express", "Django", "Flask", "Payload CMS", "Python"],
-    "tools": ["Git", "Docker", "AWS S3", "MongoDB", "PostgreSQL", "Playwright", "Pandas"],
-    "ai": ["Claude Code", "OpenCode", "Cursor", "GPT API", "AI Prompt Engineering", "LLM Integration"]
+    "frontend": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Qwik",
+      "Tailwind CSS",
+      "HTML/CSS"
+    ],
+    "backend": [
+      "Node.js",
+      "Express",
+      "Django",
+      "Flask",
+      "Payload CMS",
+      "Python"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "AWS S3",
+      "MongoDB",
+      "PostgreSQL",
+      "Playwright",
+      "Pandas"
+    ],
+    "ai": [
+      "Claude Code",
+      "OpenCode",
+      "Cursor",
+      "GPT API",
+      "AI Prompt Engineering",
+      "LLM Integration"
+    ]
   },
   "projects": [
+    {
+      "id": 0,
+      "title": "DaySee Code",
+      "description": "AI-powered desktop development assistant built with Electron, React, and TypeScript. It combines multi-provider LLM chat, persistent sessions, Docker-based sandbox execution, scheduled jobs, workflows, and an extensible plugin system for automation-heavy developer use cases.",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop",
+      "tags": [
+        "Electron",
+        "React",
+        "TypeScript",
+        "SQLite",
+        "Docker",
+        "AI Tools"
+      ],
+      "liveUrl": "#",
+      "githubUrl": "#",
+      "featured": true,
+      "color": "#14b8a6",
+      "period": "Jan 2026 - Ongoing",
+      "highlights": [
+        "Built a desktop AI workspace with multi-provider chat, persistent sessions, and system-prompt personalization",
+        "Designed plugin, workflow, and scheduled-job architecture for automating development and content operations",
+        "Integrated Docker-based sandbox execution to safely run tasks and experiments inside the app"
+      ]
+    },
     {
       "id": 1,
       "title": "ShipShip",
@@ -261,7 +314,13 @@
   "about": {
     "story": "My journey combines psychology and technology in unique ways. With a Master's in Health Psychology and a First Class Honours in Psychology, I bring analytical problem-solving skills to software development. I transitioned into tech because I saw the potential to build tools that genuinely help people—from AI-driven healthcare research to booking systems for small businesses.",
     "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik or building open-source tools like ShipShip.",
-    "interests": ["AI & Healthcare", "Open Source", "Full-Stack Development", "User Experience", "Automation"]
+    "interests": [
+      "AI & Healthcare",
+      "Open Source",
+      "Full-Stack Development",
+      "User Experience",
+      "Automation"
+    ]
   },
   "social": {
     "github": "https://github.com/muratg98",
