@@ -3,12 +3,12 @@
     "name": "Murat Gungor",
     "title": "Full-Stack Developer",
     "tagline": "Building fast, scalable, user-focused applications",
-    "bio": "Full-stack developer with over three years of experience and a background in Health Psychology, bringing analytical problem-solving skills to building fast, scalable, and user-focused applications.",
+    "bio": "Full-stack developer with over four years of experience and a background in Health Psychology, bringing analytical problem-solving skills to building fast, scalable, and user-focused applications.",
     "image": "/images/profile.jpg",
-    "email": "muratgungor-98@hotmail.com",
+    "email": "muratgungor.work@gmail.com",
     "location": "London, England, UK",
     "availability": "Open to opportunities",
-    "website": "www.muratg.dev"
+    "website": "muratg.co.uk"
   },
   "skills": {
     "frontend": [
@@ -22,27 +22,34 @@
     "backend": [
       "Node.js",
       "Express",
+      "REST APIs",
+      "Python",
       "Django",
       "Flask",
       "Payload CMS",
-      "Python"
+      "ASP.NET MVC"
     ],
     "tools": [
       "Git",
+      "Jenkins (CI/CD)",
       "Docker",
+      "Playwright (E2E)",
       "AWS S3",
+      "CEPH",
       "MongoDB",
       "PostgreSQL",
-      "Playwright",
       "Pandas"
     ],
     "ai": [
-      "Claude Code",
-      "OpenCode",
-      "Cursor",
-      "GPT API",
+      "Claude Code (Agentic Development)",
+      "AI Coding Automations",
+      "Workflow Orchestration",
+      "OpenAI API (GPT Fine-tuning)",
+      "LLM Integration",
+      "Deepgram Speech-to-Text",
       "AI Prompt Engineering",
-      "LLM Integration"
+      "Cursor",
+      "OpenCode"
     ]
   },
   "projects": [
@@ -244,10 +251,10 @@
   "accomplishments": [
     {
       "id": 1,
-      "title": "3+ Years",
+      "title": "4+ Years",
       "description": "Professional development experience",
       "icon": "rocket",
-      "value": "3+"
+      "value": "4+"
     },
     {
       "id": 2,
@@ -284,7 +291,7 @@
   },
   "social": {
     "github": "https://github.com/muratg98",
-    "linkedin": "https://linkedin.com/in/muratg98",
+    "linkedin": "https://linkedin.com/in/murat-gungor-257937168",
     "twitter": "https://twitter.com/muratg98"
   }
 }

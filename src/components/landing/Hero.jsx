@@ -50,7 +50,7 @@ export default function Hero({ onEnterBrain }) {
           </h2>
           
           <p className="hero-tagline">
-            3+ years crafting SaaS platforms, AI-powered outreach systems, booking solutions, and developer tools that ship faster.
+            4+ years crafting SaaS platforms, AI-powered outreach systems, booking solutions, and developer tools that ship faster.
           </p>
           
           {/* Mobile brain - shows between tagline and CTA */}
