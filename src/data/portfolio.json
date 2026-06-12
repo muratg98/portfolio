@@ -174,17 +174,16 @@
   "experience": [
     {
       "id": 1,
-      "role": "Junior Full-Stack Developer",
+      "role": "Full-Stack Developer",
       "company": "Printerpix",
       "type": "fulltime",
-      "period": "Nov 2025 - Present",
-      "description": "Working across the personalised printing platform to improve performance, SEO, and user experience. Collaborate with design, marketing, and data teams to deliver high-impact features.",
+      "period": "Sep 2025 - May 2026",
+      "description": "Owned the modernisation of business-critical legacy systems for the personalised printing platform, migrating undocumented ASP.NET MVC applications to Next.js/TypeScript and Qwik while collaborating with developers and business stakeholders.",
       "highlights": [
-        "Built reusable UI components and marketing pages for peak e-commerce periods",
-        "Migrated legacy frontend code to Qwik, improving load times",
-        "Developed order-observability system for customer support teams",
-        "Created private S3 uploader package integrated with CEPH",
-        "Built automated E2E tests using Playwright"
+        "Independently redeveloped the e-commerce administration platform — product configuration, pricing, content, and order management across nine international storefronts — from legacy ASP.NET MVC to Next.js and TypeScript",
+        "Migrated Project Check, an internal order-inspection tool used daily by customer support, to Qwik — owning UI, API development, and direct SQL database work",
+        "Created private S3 uploader package integrated with CEPH, replacing UploadCare and cutting storage costs",
+        "Built automated E2E tests using Playwright for peak e-commerce periods"
       ]
     },
     {
