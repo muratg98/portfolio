@@ -19,9 +19,9 @@ export default function LandingPage({ onEnterBrain }) {
       <main>
         <Hero onEnterBrain={onEnterBrain} />
         <AboutSection />
+        <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
-        <ExperienceSection />
         <ContactSection />
       </main>
       

@@ -47,43 +47,20 @@
   },
   "projects": [
     {
-      "id": 0,
-      "title": "DaySee Code",
-      "description": "AI-powered desktop development assistant with multi-provider chat, Docker sandboxing, persistent sessions, and an extensible plugin system for developer workflows.",
-      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop",
-      "tags": [
-        "Electron",
-        "React",
-        "TypeScript",
-        "SQLite",
-        "Docker",
-        "AI Tools"
-      ],
-      "liveUrl": "#",
-      "githubUrl": "#",
-      "featured": true,
-      "color": "#14b8a6",
-      "period": "Jan 2026 - Ongoing",
-      "highlights": [
-        "Built a desktop AI workspace with multi-provider chat, persistent sessions, and system-prompt personalization",
-        "Designed plugin, workflow, and scheduled-job architecture for automating development and content operations",
-        "Integrated Docker-based sandbox execution to safely run tasks and experiments inside the app"
-      ]
-    },
-    {
       "id": 1,
-      "title": "ShipShip",
-      "description": "Open-source dynamic boilerplate using Next.js and Payload CMS to help developers launch projects faster with scalable architecture and built-in performance optimizations.",
+      "title": "GitDynamic",
+      "description": "Open-source dynamic boilerplate platform (formerly ShipShip) built with Next.js and Payload CMS, using conditional code blocks to generate tailored project scaffolds in minutes.",
       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-      "tags": ["Next.js", "Payload CMS", "TypeScript", "S3"],
-      "liveUrl": "https://github.com/muratg98/shipship",
-      "githubUrl": "https://github.com/muratg98/shipship",
+      "tags": ["Next.js", "Payload CMS", "TypeScript", "Developer Tools"],
+      "liveUrl": "https://gitdynamic.io",
+      "githubUrl": "https://github.com/muratg98",
       "featured": true,
       "color": "#3b82f6",
-      "period": "Nov 2024 - Ongoing",
+      "period": "Nov 2024 - Jun 2025",
       "highlights": [
-        "Instantly integrate authentication, emailing, database configuration, S3 storage and blog section",
-        "Built modular, reusable components for rapid application development"
+        "Pre-configured authentication, emailing, database setup, S3 storage, and blog functionality",
+        "Conditional code blocks produce dynamic boilerplates for each project configuration",
+        "Significantly reduces project setup time across supported tech stacks"
       ]
     },
     {
@@ -115,6 +92,7 @@
       "color": "#06b6d4",
       "period": "Mar 2024",
       "highlights": [
+        "Collaborated with an Omdena local chapter team on an end-to-end ML pipeline",
         "Prevented data leakage by properly splitting data before preprocessing",
         "Applied classification models to support early diagnosis in healthcare"
       ]
@@ -151,23 +129,6 @@
         "Full admin panel for dynamic content management",
         "Event scheduling and management system",
         "Image upload and gallery functionality"
-      ]
-    },
-    {
-      "id": 6,
-      "title": "GitDynamics",
-      "description": "Developer tool for applying conditions to code, enabling dynamic boilerplates that significantly improve coding speed and project setup time.",
-      "image": "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&h=600&fit=crop",
-      "tags": ["Developer Tools", "Boilerplate", "Automation"],
-      "liveUrl": "https://gitdynamic.io",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": true,
-      "color": "#3b82f6",
-      "period": "2025",
-      "highlights": [
-        "Conditional code blocks for dynamic boilerplates",
-        "Significantly reduces project setup time",
-        "Flexible configuration for any tech stack"
       ]
     }
   ],
@@ -298,7 +259,7 @@
     {
       "id": 3,
       "title": "Open Source",
-      "description": "ShipShip boilerplate creator",
+      "description": "GitDynamic boilerplate creator",
       "icon": "github",
       "value": "OSS"
     },
@@ -312,7 +273,7 @@
   ],
   "about": {
     "story": "My journey combines psychology and technology in unique ways. With a Master's in Health Psychology and a First Class Honours in Psychology, I bring analytical problem-solving skills to software development. I transitioned into tech because I saw the potential to build tools that genuinely help people—from AI-driven healthcare research to booking systems for small businesses.",
-    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik or building open-source tools like ShipShip.",
+    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik or building open-source tools like GitDynamic.",
     "interests": [
       "AI & Healthcare",
       "Open Source",

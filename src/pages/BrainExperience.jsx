@@ -23,8 +23,8 @@ function LoadingScreen() {
 
 const sectionContent = {
   me: { title: 'Me', component: MeContent },
-  projects: { title: 'Projects', component: ProjectsContent },
   experience: { title: 'Experience', component: ExperienceContent },
+  projects: { title: 'Projects', component: ProjectsContent },
   skills: { title: 'Skills', component: SkillsContent },
   contact: { title: 'Contact', component: ContactContent },
   education: { title: 'Education', component: EducationContent },
@@ -32,8 +32,8 @@ const sectionContent = {
 
 const SECTIONS = [
   { id: 'me', label: 'Me' },
-  { id: 'projects', label: 'Projects' },
   { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
   { id: 'education', label: 'Education' },
