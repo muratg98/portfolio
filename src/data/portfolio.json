@@ -14,6 +14,7 @@
     "frontend": [
       "React",
       "Next.js",
+      "React Native (Expo)",
       "TypeScript",
       "Qwik",
       "Tailwind CSS",
@@ -38,9 +39,14 @@
       "CEPH",
       "MongoDB",
       "PostgreSQL",
+      "Supabase",
+      "Vercel",
       "Pandas"
     ],
     "ai": [
+      "PyTorch (Object Detection, Metric Learning)",
+      "TFLite On-Device Inference",
+      "pgvector Vector Search",
       "Claude Code (Agentic Development)",
       "AI Coding Automations",
       "Workflow Orchestration",
@@ -53,6 +59,24 @@
     ]
   },
   "projects": [
+    {
+      "id": 0,
+      "title": "Owlex",
+      "description": "Trading card scanner app (React Native) that identifies, prices, and lists cards to eBay across five games — powered by custom-trained on-device ML models achieving 91% top-1 and 99.1% top-5 recognition accuracy.",
+      "image": "/images/owlex-poster.webp",
+      "tags": ["React Native", "Machine Learning", "TFLite", "Supabase", "Next.js"],
+      "liveUrl": "https://owlex.co.uk",
+      "githubUrl": "https://github.com/muratg98",
+      "featured": true,
+      "color": "#6366f1",
+      "period": "Jun 2026 - Present",
+      "highlights": [
+        "Trained a two-stage recognition system: YOLOX card detector + ArcFace embedding model with pgvector similarity search over a 100k+ card catalogue",
+        "Built the training data pipeline end-to-end — scraped real-world images from Reddit and eBay, auto-labelled with Grounding DINO, deduplicated by perceptual hash",
+        "Live eBay listing integration (OAuth + Inventory API), cache-first market pricing, and RevenueCat subscriptions",
+        "Beta tested with 15+ collectors and validated in person at an official TCG trading show"
+      ]
+    },
     {
       "id": 1,
       "title": "GitDynamic",
@@ -141,6 +165,20 @@
   ],
   "experience": [
     {
+      "id": 0,
+      "role": "Independent Developer",
+      "company": "Owlex",
+      "type": "fulltime",
+      "period": "Jun 2026 - Present",
+      "description": "Designing, building, and shipping Owlex solo — a React Native (Expo) trading card scanner app that identifies, prices, and lists cards to eBay, backed by a Next.js API, Supabase/PostgreSQL, and custom-trained ML models.",
+      "highlights": [
+        "Trained a custom two-stage recognition system (YOLOX detector + ArcFace embeddings with pgvector search) achieving 91% top-1 / 99.1% top-5 accuracy, running in real time on-device via TFLite",
+        "Engineered the training data pipeline: scraped thousands of card images from Reddit and eBay, auto-labelled with an open-vocabulary teacher model",
+        "Ran user research at an official TCG trading show and a beta programme with 15+ collectors",
+        "Integrated live eBay listing, market pricing, and RevenueCat billing; now finalising the App Store release"
+      ]
+    },
+    {
       "id": 1,
       "role": "Full-Stack Developer",
       "company": "Printerpix",
@@ -172,7 +210,7 @@
       "role": "Freelance Developer",
       "company": "Upwork",
       "type": "freelance",
-      "period": "Nov 2023 - Present",
+      "period": "Nov 2023 - May 2026",
       "description": "Collaborated with clients to build Python scripts automating tasks and streamlining workflows.",
       "highlights": [
         "Built automation scripts for various client needs",
@@ -280,7 +318,7 @@
   ],
   "about": {
     "story": "My journey combines psychology and technology in unique ways. With a Master's in Health Psychology and a First Class Honours in Psychology, I bring analytical problem-solving skills to software development. I transitioned into tech because I saw the potential to build tools that genuinely help people—from AI-driven healthcare research to booking systems for small businesses.",
-    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik or building open-source tools like GitDynamic.",
+    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik, building open-source tools like GitDynamic, or training my own ML models for Owlex, my card scanner app.",
     "interests": [
       "AI & Healthcare",
       "Open Source",
