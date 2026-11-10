@@ -1,335 +1,139 @@
 {
   "profile": {
     "name": "Murat Gungor",
-    "title": "Full-Stack Developer",
-    "tagline": "Building fast, scalable, user-focused applications",
-    "bio": "Full-stack developer with over four years of experience and a background in Health Psychology, bringing analytical problem-solving skills to building fast, scalable, and user-focused applications.",
-    "image": "/images/profile.jpg",
+    "role": "Full-stack engineer",
+    "lead": "I build web and mobile products end to end. Before software, I studied psychology and published research on AI in healthcare.",
+    "threads": [
+      { "when": "Now", "text": "A card scanner that runs a recognition model I trained myself", "href": "#projects" },
+      { "when": "Before that", "text": "Two undocumented legacy systems, migrated on my own", "href": "#work" },
+      { "when": "Where it started", "text": "A published paper on how people accept AI in healthcare", "href": "#research" }
+    ],
+    "location": "London, UK",
+    "availability": "Open to full-stack and founding engineer roles",
+    "background": "MSc Health Psychology",
     "email": "muratgungor.work@gmail.com",
-    "location": "London, England, UK",
-    "availability": "Open to opportunities",
     "website": "muratg.co.uk"
-  },
-  "skills": {
-    "frontend": [
-      "React",
-      "Next.js",
-      "React Native (Expo)",
-      "TypeScript",
-      "Qwik",
-      "Tailwind CSS",
-      "HTML/CSS"
-    ],
-    "backend": [
-      "Node.js",
-      "Express",
-      "REST APIs",
-      "Python",
-      "Django",
-      "Flask",
-      "Payload CMS",
-      "ASP.NET MVC"
-    ],
-    "tools": [
-      "Git",
-      "Jenkins (CI/CD)",
-      "Docker",
-      "Playwright (E2E)",
-      "AWS S3",
-      "CEPH",
-      "MongoDB",
-      "PostgreSQL",
-      "Supabase",
-      "Vercel",
-      "Pandas"
-    ],
-    "ai": [
-      "PyTorch (Object Detection, Metric Learning)",
-      "TFLite On-Device Inference",
-      "pgvector Vector Search",
-      "Claude Code (Agentic Development)",
-      "AI Coding Automations",
-      "Workflow Orchestration",
-      "OpenAI API (GPT Fine-tuning)",
-      "LLM Integration",
-      "Deepgram Speech-to-Text",
-      "AI Prompt Engineering",
-      "Cursor",
-      "OpenCode"
-    ]
-  },
-  "projects": [
-    {
-      "id": 0,
-      "title": "Owlex",
-      "description": "Trading card scanner app (React Native) that identifies, prices, and lists cards to eBay across five games — powered by custom-trained on-device ML models achieving 91% top-1 and 99.1% top-5 recognition accuracy.",
-      "image": "/images/owlex-poster.webp",
-      "tags": ["React Native", "Machine Learning", "TFLite", "Supabase", "Next.js"],
-      "liveUrl": "https://owlex.co.uk",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": true,
-      "color": "#6366f1",
-      "period": "Jun 2026 - Present",
-      "highlights": [
-        "Trained a two-stage recognition system: YOLOX card detector + ArcFace embedding model with pgvector similarity search over a 100k+ card catalogue",
-        "Built the training data pipeline end-to-end — scraped real-world images from Reddit and eBay, auto-labelled with Grounding DINO, deduplicated by perceptual hash",
-        "Live eBay listing integration (OAuth + Inventory API), cache-first market pricing, and RevenueCat subscriptions",
-        "Beta tested with 15+ collectors and validated in person at an official TCG trading show"
-      ]
-    },
-    {
-      "id": 1,
-      "title": "GitDynamic",
-      "description": "Open-source dynamic boilerplate platform (formerly ShipShip) built with Next.js and Payload CMS, using conditional code blocks to generate tailored project scaffolds in minutes.",
-      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-      "tags": ["Next.js", "Payload CMS", "TypeScript", "Developer Tools"],
-      "liveUrl": "https://gitdynamic.io",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": true,
-      "color": "#3b82f6",
-      "period": "Nov 2024 - Jun 2025",
-      "highlights": [
-        "Pre-configured authentication, emailing, database setup, S3 storage, and blog functionality",
-        "Conditional code blocks produce dynamic boilerplates for each project configuration",
-        "Significantly reduces project setup time across supported tech stacks"
-      ]
-    },
-    {
-      "id": 2,
-      "title": "MaxReach",
-      "description": "AI-powered LinkedIn outreach tool using APIs and web scraping to enrich profiles, then creating personalized outreach using a fine-tuned GPT 3.5 Turbo AI Model.",
-      "image": "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=800&h=600&fit=crop",
-      "tags": ["Python", "GPT-3.5", "Pandas", "Web Scraping"],
-      "liveUrl": "#",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": true,
-      "color": "#8b5cf6",
-      "period": "Nov 2023 - Jan 2024",
-      "highlights": [
-        "Web scraping and data enrichment at scale",
-        "Fine-tuning AI model with best performing outreach text",
-        "Data hierarchy to prioritize specific data in the AI model"
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Alzheimer's Detection Model",
-      "description": "Machine learning model for detecting early signs of Alzheimer's using brain scan images from a Kaggle dataset, developed with Omdena.",
-      "image": "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=600&fit=crop",
-      "tags": ["Python", "Machine Learning", "Medical Imaging"],
-      "liveUrl": "#",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": false,
-      "color": "#06b6d4",
-      "period": "Mar 2024",
-      "highlights": [
-        "Collaborated with an Omdena local chapter team on an end-to-end ML pipeline",
-        "Prevented data leakage by properly splitting data before preprocessing",
-        "Applied classification models to support early diagnosis in healthcare"
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Onaegis",
-      "description": "SaaS website built during a Wix Velo hackathon that detects bot-like behaviours across YouTube accounts using AI classification.",
-      "image": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
-      "tags": ["Wix Velo", "AI/ML", "JavaScript"],
-      "liveUrl": "#",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": false,
-      "color": "#f59e0b",
-      "period": "Mar 2023 - Jun 2023",
-      "highlights": [
-        "Built and deployed within hackathon timeframe",
-        "Trained AI model on 1,000+ labeled data points",
-        "Achieved over 90% accuracy in classification"
-      ]
-    },
-    {
-      "id": 5,
-      "title": "CardQuest London",
-      "description": "Event website for TCG trading card events with a full admin panel allowing content management - text editing, event creation, image uploads and more.",
-      "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
-      "tags": ["Next.js", "Payload CMS", "TypeScript", "Admin Panel"],
-      "liveUrl": "https://cardquestlondon.co.uk",
-      "githubUrl": "https://github.com/muratg98",
-      "featured": false,
-      "color": "#8b5cf6",
-      "period": "2025",
-      "highlights": [
-        "Full admin panel for dynamic content management",
-        "Event scheduling and management system",
-        "Image upload and gallery functionality"
-      ]
-    }
-  ],
-  "experience": [
-    {
-      "id": 0,
-      "role": "Independent Developer",
-      "company": "Owlex",
-      "type": "fulltime",
-      "period": "Jun 2026 - Present",
-      "description": "Designing, building, and shipping Owlex solo — a React Native (Expo) trading card scanner app that identifies, prices, and lists cards to eBay, backed by a Next.js API, Supabase/PostgreSQL, and custom-trained ML models.",
-      "highlights": [
-        "Trained a custom two-stage recognition system (YOLOX detector + ArcFace embeddings with pgvector search) achieving 91% top-1 / 99.1% top-5 accuracy, running in real time on-device via TFLite",
-        "Engineered the training data pipeline: scraped thousands of card images from Reddit and eBay, auto-labelled with an open-vocabulary teacher model",
-        "Ran user research at an official TCG trading show and a beta programme with 15+ collectors",
-        "Integrated live eBay listing, market pricing, and RevenueCat billing; now finalising the App Store release"
-      ]
-    },
-    {
-      "id": 1,
-      "role": "Full-Stack Developer",
-      "company": "Printerpix",
-      "type": "fulltime",
-      "period": "Sep 2025 - May 2026",
-      "description": "Owned the modernisation of business-critical legacy systems for the personalised printing platform, migrating undocumented ASP.NET MVC applications to Next.js/TypeScript and Qwik while collaborating with developers and business stakeholders.",
-      "highlights": [
-        "Independently redeveloped the e-commerce administration platform — product configuration, pricing, content, and order management across nine international storefronts — from legacy ASP.NET MVC to Next.js and TypeScript",
-        "Migrated Project Check, an internal order-inspection tool used daily by customer support, to Qwik — owning UI, API development, and direct SQL database work",
-        "Created private S3 uploader package integrated with CEPH, replacing UploadCare and cutting storage costs",
-        "Built automated E2E tests using Playwright for peak e-commerce periods"
-      ]
-    },
-    {
-      "id": 2,
-      "role": "Full-Stack Developer",
-      "company": "Zaman Bookings",
-      "type": "fulltime",
-      "period": "Jan 2025 - Jul 2025",
-      "description": "Called back to fix bugs, improve performance, integrate Payload CMS, and develop premium features with focus on UX and responsive React components.",
-      "highlights": [
-        "Implemented multi-tenancy with Payload CMS for role-based access",
-        "Fixed key bugs and improved UX in staff dashboard",
-        "Added email reminders and dynamic client page generation using ISR"
-      ]
-    },
-    {
-      "id": 3,
-      "role": "Freelance Developer",
-      "company": "Upwork",
-      "type": "freelance",
-      "period": "Nov 2023 - May 2026",
-      "description": "Collaborated with clients to build Python scripts automating tasks and streamlining workflows.",
-      "highlights": [
-        "Built automation scripts for various client needs",
-        "Excellent feedback: \"The code is clean and works as designed\""
-      ]
-    },
-    {
-      "id": 4,
-      "role": "Full-Stack Developer",
-      "company": "Zaman Bookings",
-      "type": "fulltime",
-      "period": "Sep 2024 - Dec 2024",
-      "description": "Built the MVP for beauty service businesses using Next.js, React, Node.js, MongoDB, and Better Auth.",
-      "highlights": [
-        "Built client dashboard with timetable and booking management",
-        "Developed algorithm for optimal time slot scheduling"
-      ]
-    },
-    {
-      "id": 5,
-      "role": "Developer (Internship)",
-      "company": "Jannah Cycle",
-      "type": "fulltime",
-      "period": "Sep 2023 - Mar 2024",
-      "description": "Joined volunteer tech team at startup focused on verified social and environmental impact data.",
-      "highlights": [
-        "Debugged and extended frontend functionality using Django",
-        "Collaborated with remote international team"
-      ]
-    }
-  ],
-  "education": [
-    {
-      "id": 1,
-      "institution": "University of Westminster",
-      "degree": "Master of Science",
-      "field": "Health Psychology",
-      "period": "Sep 2020 - Sep 2021",
-      "grade": "Merit (2.1)",
-      "highlights": [
-        "Focused on research methodology and statistical analysis",
-        "Published research on AI acceptance in healthcare"
-      ]
-    },
-    {
-      "id": 2,
-      "institution": "University of Greenwich",
-      "degree": "Bachelor of Science",
-      "field": "Psychology",
-      "period": "Sep 2016 - May 2019",
-      "grade": "First Class Honours",
-      "highlights": [
-        "Strong foundation in research and analytical thinking",
-        "Developed quantitative and qualitative research skills"
-      ]
-    },
-    {
-      "id": 3,
-      "institution": "The City Academy",
-      "degree": "A Levels",
-      "field": "Mathematics, Psychology, Physics, Computing",
-      "period": "Sep 2014 - Jun 2016",
-      "grade": "B, B, C, C",
-      "highlights": []
-    }
-  ],
-  "publications": [
-    {
-      "id": 1,
-      "title": "Exploring Acceptability of AI-enabled Voice Assistants & Artificial Humans in Healthcare",
-      "journal": "AI & Society",
-      "date": "Feb 2025",
-      "description": "Cross-sectional survey investigating acceptance of AI-based healthcare assistants during COVID-19, using logistic regression and multiple regression analysis."
-    }
-  ],
-  "accomplishments": [
-    {
-      "id": 1,
-      "title": "4+ Years",
-      "description": "Professional development experience",
-      "icon": "rocket",
-      "value": "4+"
-    },
-    {
-      "id": 2,
-      "title": "Published",
-      "description": "Research in AI & Society journal",
-      "icon": "star",
-      "value": "1"
-    },
-    {
-      "id": 3,
-      "title": "Open Source",
-      "description": "GitDynamic boilerplate creator",
-      "icon": "github",
-      "value": "OSS"
-    },
-    {
-      "id": 4,
-      "title": "First Class",
-      "description": "BSc Psychology Honours",
-      "icon": "pen",
-      "value": "1st"
-    }
-  ],
-  "about": {
-    "story": "My journey combines psychology and technology in unique ways. With a Master's in Health Psychology and a First Class Honours in Psychology, I bring analytical problem-solving skills to software development. I transitioned into tech because I saw the potential to build tools that genuinely help people—from AI-driven healthcare research to booking systems for small businesses.",
-    "approach": "I believe in building fast, scalable applications that prioritize user experience. My psychology background helps me understand user needs at a deeper level, while my technical skills allow me to implement efficient solutions. I'm always learning—whether it's migrating to new frameworks like Qwik, building open-source tools like GitDynamic, or training my own ML models for Owlex, my card scanner app.",
-    "interests": [
-      "AI & Healthcare",
-      "Open Source",
-      "Full-Stack Development",
-      "User Experience",
-      "Automation"
-    ]
   },
   "social": {
     "github": "https://github.com/muratg98",
-    "linkedin": "https://linkedin.com/in/murat-gungor-257937168",
-    "twitter": "https://twitter.com/muratg98"
-  }
+    "linkedin": "https://linkedin.com/in/muratgungordev",
+    "owlex": "https://owlex.co.uk"
+  },
+  "about": {
+    "first": "I'm a full-stack engineer in London who likes owning a product from the first user conversation to the release.",
+    "paragraphs": [
+      "After an MSc in Health Psychology and a published paper on how people accept AI in healthcare, I taught myself to code. I built a hackathon project that I later sold on Flippa, freelanced, then joined Printerpix, where I migrated two undocumented legacy systems on my own.",
+      "In 2026 I left to build Owlex, a trading card scanner that recognises cards on the phone.",
+      "I work AI-native. I've spent more than 1,500 hours in Claude Code, shipping whole products with it that hold up in production. People also bring me their vibe-coded projects to clean up.",
+      "I'm most interested in health tech and AI products."
+    ],
+    "facts": [
+      { "icon": "pin", "label": "Based in", "value": "London, UK" },
+      { "icon": "hammer", "label": "Building now", "value": "Owlex, as a solo developer" },
+      { "icon": "layers", "label": "Main stack", "value": "TypeScript, React, Next.js, React Native, Python, Postgres" },
+      { "icon": "degree", "label": "Degrees", "value": "MSc Health Psychology, BSc Psychology (First)" },
+      { "icon": "paper", "label": "Published in", "value": "AI & Society, 2025" },
+      { "icon": "bot", "label": "Works with AI agents", "value": "1,500+ hours in Claude Code" }
+    ]
+  },
+  "experience": [
+    {
+      "company": "Owlex",
+      "role": "Independent developer",
+      "location": "London",
+      "period": "Jun 2026 to now",
+      "highlights": [
+        "Designed, built and shipped a React Native app that scans, identifies, prices and lists trading cards to eBay across five games. I own the mobile app, the Next.js API, Supabase/Postgres and the ML pipeline.",
+        "Trained a two-stage recognition system (YOLOX detector, ArcFace embeddings, pgvector search) that reaches 91% top-1 and 99.1% top-5 accuracy on about 10,000 hand-labelled cards, in real time on the phone through TFLite.",
+        "Built the training data pipeline: scraped real-world card photos from Reddit and eBay, auto-labelled them with Grounding DINO and removed duplicates with perceptual hashing.",
+        "Ran user research at an official TCG trading show and a beta with 15+ collectors, then reworked scanning and pricing from what they told me.",
+        "Integrated eBay listing (OAuth and the Inventory API), cache-first market pricing and RevenueCat subscriptions."
+      ]
+    },
+    {
+      "company": "Printerpix",
+      "role": "Full-stack developer",
+      "location": "London",
+      "period": "Sep 2025 to May 2026",
+      "highlights": [
+        "Rebuilt the e-commerce admin platform that runs product setup, pricing, content and orders for nine international storefronts, moving an undocumented ASP.NET MVC application to Next.js and TypeScript on my own.",
+        "Migrated Project Check, the order-inspection tool customer support uses every day, to Qwik. I covered the UI, the API and the SQL.",
+        "Wrote a private S3 uploader package on CEPH that replaced UploadCare and cut storage costs.",
+        "Added Playwright end-to-end tests ahead of peak trading periods."
+      ]
+    },
+    {
+      "company": "Zaman Bookings",
+      "role": "Full-stack developer",
+      "location": "London",
+      "period": "Sep 2024 to Jul 2025",
+      "highlights": [
+        "Built the first version of a booking platform for beauty businesses with Next.js, Node.js, MongoDB and Better Auth.",
+        "Designed the scheduling algorithm that finds the best time slots across several staff members.",
+        "Came back in 2025 to add multi-tenancy with Payload CMS and role-based access, plus per-client booking pages generated with ISR and sold as a premium feature."
+      ]
+    },
+    {
+      "company": "Upwork",
+      "role": "Freelance developer",
+      "location": "Remote",
+      "period": "Nov 2023 to May 2026",
+      "highlights": ["Python automation scripts for clients, with a 100% satisfaction rate."]
+    },
+    {
+      "company": "Jannah Cycle",
+      "role": "Developer (internship)",
+      "location": "Remote",
+      "period": "Sep 2023 to Mar 2024",
+      "highlights": ["Extended a Django front end for a startup that verifies social and environmental impact data, working with a remote international team."]
+    }
+  ],
+  "featured": {
+    "title": "Owlex",
+    "url": "https://owlex.co.uk",
+    "urlLabel": "owlex.co.uk",
+    "lead": "Point your phone at a trading card. Owlex names it, prices it and can list it on eBay. The recognition runs on the device, using models I trained.",
+    "figures": [
+      { "value": "91%", "label": "first-guess accuracy" },
+      { "value": "99.1%", "label": "correct card in the top five" },
+      { "value": "100k+", "label": "cards in the catalogue, across five games" }
+    ],
+    "pipeline": [
+      { "step": "Detect", "detail": "YOLOX finds the card in the frame" },
+      { "step": "Embed", "detail": "an ArcFace model turns it into a vector" },
+      { "step": "Match", "detail": "pgvector finds the nearest cards" },
+      { "step": "Price and list", "detail": "market price, then eBay" }
+    ]
+  },
+  "projects": [
+    { "title": "Zaman Bookings", "description": "Multi-tenant booking platform for salons. Live, with real businesses taking bookings on it.", "stack": "Next.js, Payload CMS, MongoDB", "period": "2024 to now", "url": "" },
+    { "title": "Daar Hadeeth", "description": "Mosque website with member accounts, a Madrasah learning system and a marriage service.", "stack": "Next.js, Payload CMS", "period": "2026", "url": "" },
+    { "title": "Insam Real Estate", "description": "Rent management and an M-PESA payment ledger for a property manager in Kenya.", "stack": "Client project", "period": "2026", "url": "" },
+    { "title": "Jarvis", "description": "An always-on voice assistant for my home, built on Claude Code.", "stack": "Claude Code, speech models", "period": "2026", "url": "" },
+    { "title": "Stop the Bus", "description": "A party trivia game, published on the App Store and Google Play.", "stack": "Mobile", "period": "2026", "url": "" },
+    { "title": "GitDynamic", "description": "Open-source Next.js and Payload boilerplate (formerly ShipShip) with auth, email, database, S3 storage and a blog set up.", "stack": "Next.js, Payload CMS, TypeScript", "period": "2024 to 2025", "url": "https://gitdynamic.io" },
+    { "title": "CardQuest London", "description": "Event site for trading card shows, with an admin panel for events, text and images.", "stack": "Next.js, Payload CMS", "period": "2025", "url": "https://cardquestlondon.co.uk" },
+    { "title": "Alzheimer's detection model", "description": "Classifier for early signs of Alzheimer's in brain scans, built with an Omdena chapter team.", "stack": "Python, machine learning", "period": "2024", "url": "" },
+    { "title": "MaxReach", "description": "LinkedIn outreach tool: scraping pipelines and a GPT-3.5 model fine-tuned on the best-performing messages.", "stack": "Python, Pandas, OpenAI API", "period": "2023 to 2024", "url": "" },
+    { "title": "Onaegis", "description": "Hackathon SaaS that spots bot-like YouTube accounts. Trained on 1,000+ labelled examples, over 90% accurate.", "stack": "Wix Velo, JavaScript", "period": "2023", "url": "" }
+  ],
+  "skills": [
+    { "group": "Building with AI", "items": "Claude Code (1,500+ hours), agentic development from first commit to release, hardening and cleaning up vibe-coded projects, LLM integration, OpenAI fine-tuning" },
+    { "group": "Languages", "items": "TypeScript, JavaScript, Python, SQL, HTML, CSS" },
+    { "group": "Front end and mobile", "items": "React, Next.js, React Native (Expo), Qwik, Tailwind CSS" },
+    { "group": "Back end", "items": "Node.js, REST APIs, Payload CMS, Django, Flask, ASP.NET MVC (legacy migration)" },
+    { "group": "Data", "items": "PostgreSQL, Supabase (RLS, pgvector), MongoDB" },
+    { "group": "Applied ML", "items": "Card detection and matching models for Owlex (built with AI assistance), on-device inference with TFLite, vector search with pgvector" },
+    { "group": "Tools", "items": "Git, Jenkins CI/CD, Playwright, Vercel, AWS S3, CEPH, Better Auth, RevenueCat, eBay APIs" }
+  ],
+  "publication": {
+    "title": "Exploring Acceptability of AI-enabled Voice Assistants and Artificial Humans in Healthcare",
+    "journal": "AI & Society",
+    "date": "February 2025",
+    "description": "A cross-sectional survey of how willing people are to use AI-based healthcare assistants, analysed with logistic and multiple regression."
+  },
+  "education": [
+    { "degree": "MSc Health Psychology", "institution": "University of Westminster", "period": "2020 to 2021", "grade": "Merit" },
+    { "degree": "BSc Psychology", "institution": "University of Greenwich", "period": "2016 to 2019", "grade": "First Class Honours" }
+  ]
 }
